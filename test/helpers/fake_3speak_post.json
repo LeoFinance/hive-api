@@ -1,0 +1,68 @@
+{
+  "post_id": 107198864,
+  "author": "leo.shorts",
+  "permlink": "bpyjkjgn",
+  "category": "hive-167922",
+  "title": "FTX Valued $25 Billion",
+  "body": "<center>\n\n[![](https://img.3speakcontent.co/bpyjkjgn/thumbnails/default.png)](https://3speak.tv/watch?v=leo.shorts/bpyjkjgn)\n\n\u25b6\ufe0f [Watch on 3Speak](https://3speak.tv/watch?v=leo.shorts/bpyjkjgn)\n\n</center>\n\n---\n\nFTX just finanlised a 420 million funding in its series B funding\n\n---\n\n\u25b6\ufe0f [3Speak](https://3speak.tv/watch?v=leo.shorts/bpyjkjgn)\n",
+  "json_metadata": {
+    "tags": ["leofinance", "ftx", "cryptocurrency"],
+    "app": "3speak/0.3.0",
+    "type": "3speak/video",
+    "image": ["https://img.3speakcontent.co/bpyjkjgn/thumbnails/default.png"],
+    "video": {
+      "info": {
+        "platform": "3speak",
+        "title": "FTX Valued $25 Billion",
+        "author": "leo.shorts",
+        "permlink": "bpyjkjgn",
+        "duration": 14.158333333333333,
+        "filesize": 1350942,
+        "file": "qPbixDclXRdEDRScHyCgpdwFJWSWenzfHUMCMpguYbSIJiSvFzwNRtteVrySpoPG.mp4",
+        "lang": "et",
+        "firstUpload": false,
+        "ipfs": "QmdFp7R7wKd6hVr8tR5zTUUjeQRswCkXiFSeXFmS4n6apv/default.m3u8",
+        "ipfsThumbnail": "QmdFp7R7wKd6hVr8tR5zTUUjeQRswCkXiFSeXFmS4n6apv/thumbnail.png"
+      },
+      "content": {
+        "description": "FTX just finanlised a 420 million funding in its series B funding",
+        "tags": ["leofinance", "ftx", "cryptocurrency"]
+      }
+    }
+  },
+  "created": "2021-10-21T14:05:45",
+  "updated": "2021-10-22T15:47:39",
+  "depth": 0,
+  "children": 1,
+  "net_rshares": 6852421932,
+  "is_paidout": false,
+  "payout_at": "2021-10-28T14:05:45",
+  "payout": 0.007,
+  "pending_payout_value": "0.007 HBD",
+  "author_payout_value": "0.000 HBD",
+  "curator_payout_value": "0.000 HBD",
+  "promoted": "0.000 HBD",
+  "replies": [],
+  "author_reputation": 50.53,
+  "stats": {
+    "hide": false,
+    "gray": false,
+    "total_votes": 4,
+    "flag_weight": 0.0
+  },
+  "url": "/hive-167922/@leo.shorts/bpyjkjgn",
+  "beneficiaries": [],
+  "max_accepted_payout": "0.000 HBD",
+  "percent_hbd": 10000,
+  "active_votes": [
+    { "rshares": 4927295762, "voter": "lizanomadsoul" },
+    { "rshares": 123413083, "voter": "haxxdump" },
+    { "rshares": 16666086, "voter": "toni.curation" },
+    { "rshares": 1785047001, "voter": "hivebuzz" }
+  ],
+  "blacklists": [],
+  "community": "hive-167922",
+  "community_title": "LeoFinance",
+  "author_role": "guest",
+  "author_title": ""
+}
