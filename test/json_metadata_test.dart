@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'helpers/fakes.dart';
+import 'samples/samples.dart';
 import 'package:hive_bridge_api/hive_bridge_api.dart';
 import 'package:test/test.dart';
 import 'package:faker/faker.dart';
@@ -10,7 +10,7 @@ void main() {
   group('JsonMetadata', () {
     group('fromJson', () {
       test('decodes from JSON', () async {
-        JsonMetadata jsonMetadata = await fakeJsonMetadata();
+        JsonMetadata jsonMetadata = await sampleJsonMetadata();
         Map<String, dynamic> json = {
           "app": jsonMetadata.app,
           "format": jsonMetadata.format,
@@ -28,7 +28,7 @@ void main() {
       });
 
       test('accepts single String as image', () async {
-        final json = (await File('test/helpers/fake_post.json')
+        final json = (await File('test/samples/post.json')
             .readAsString()
             .then(jsonDecode))["json_metadata"];
 

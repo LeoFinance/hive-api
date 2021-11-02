@@ -7,7 +7,7 @@ part of 'discussion.dart';
 // **************************************************************************
 
 Discussion _$DiscussionFromJson(Map<String, dynamic> json) => Discussion(
-      Post.fromJson(json['root'] as Map<String, dynamic>),
+      Post.fromJson(json['post'] as Map<String, dynamic>),
       comments: (json['comments'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, Post.fromJson(e as Map<String, dynamic>)),
           ) ??
@@ -16,6 +16,6 @@ Discussion _$DiscussionFromJson(Map<String, dynamic> json) => Discussion(
 
 Map<String, dynamic> _$DiscussionToJson(Discussion instance) =>
     <String, dynamic>{
-      'root': instance.root.toJson(),
+      'post': instance.post.toJson(),
       'comments': instance.comments.map((k, e) => MapEntry(k, e.toJson())),
     };

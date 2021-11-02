@@ -2,34 +2,35 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:hive_bridge_api/hive_bridge_api.dart';
 import 'package:test/test.dart';
+import 'samples/samples.dart';
 
 void main() {
   group('Discussion', () {
     group('fromJson', () {
       test('decodes from JSON', () async {
-        final json = await File('test/helpers/fake_discussion.json')
+        final json = await File('test/samples/discussion.json')
             .readAsString()
             .then(jsonDecode);
 
         expect(
             Discussion.fromJson(json),
             isA<Discussion>()
-                .having((d) => d.root, 'root', isNotNull)
-                .having((d) => d.root.author, 'root author', 'edicted')
-                .having((d) => d.root.permlink, 'root permlink',
-                    'market-watch-bitcoin-posts-very-rare-signal')
-                .having((d) => d.root.children, 'children length', 18));
+                .having((d) => d.post, 'post', isNotNull)
+                .having((d) => d.post.author, 'post author', 'cwow2')
+                .having((d) => d.post.permlink, 'post permlink',
+                    'selling-my-hive-goodbye')
+                .having((d) => d.post.children, 'children', 35));
       });
 
       test('contains correct items', () async {
-        final json = await File('test/helpers/fake_discussion.json')
+        final json = await File('test/samples/discussion.json')
             .readAsString()
             .then(jsonDecode);
 
         expect(
             Discussion.fromJson(json),
             isA<Discussion>()
-                .having((d) => d.comments, 'comments length', hasLength(18)));
+                .having((d) => d.comments, 'comments length', hasLength(35)));
       });
     });
   });

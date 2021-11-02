@@ -27,6 +27,21 @@ class PostNotFoundFailure implements Exception {
   String toString() => 'PostNotFoundFailure: $author - $permlink';
 }
 
+class JsonRpcError implements Exception {
+  final int code;
+  final String message;
+  final String data;
+
+  // {code: -32602, message: Invalid parameters, data: missing a required argument: 'author'}
+  JsonRpcError(dynamic errorObj)
+      : code = errorObj['code'],
+        message = errorObj['message'],
+        data = errorObj['data'];
+
+  @override
+  String toString() => 'JsonRpcError ($code) $message: $data';
+}
+
 class FeedNotFoundFailure implements Exception {
   final String tag;
   final String sort;
@@ -48,31 +63,30 @@ class BridgeApiClient {
       : _httpClient = httpClient ?? http.Client();
 
   Future<Post> getPost(String author, String permlink) async {
-    print('getPost > $author - $permlink');
-
-    final postResponse = await _httpClient.post(_uri, body: {
-      'jsonrpc': '2.0',
-      'method': 'bridge.get_post',
-      'params': {author: author, permlink: permlink},
-      'id': 1
-    });
+    final postResponse = await _httpClient.post(_uri,
+        body: jsonEncode({
+          'jsonrpc': '2.0',
+          'method': 'bridge.get_post',
+          'params': {'author': author, 'permlink': permlink},
+          'id': 1
+        }));
 
     if (postResponse.statusCode != 200) {
       throw ContentRequestFailure(statusCode: postResponse.statusCode);
     }
 
-    final bodyJson = jsonDecode(postResponse.body) as Map<String, dynamic>;
+    final bodyJson = jsonDecode(postResponse.body);
 
-    if (bodyJson.isEmpty) {
-      throw PostNotFoundFailure(author, permlink);
+    if (bodyJson['error'] != null) {
+      if (bodyJson['error']['code'] == -32602) {
+        throw PostNotFoundFailure(author, permlink);
+      } else {
+        throw JsonRpcError(bodyJson['error']);
+      }
     }
 
     try {
-      // print('Downloaded raw $bodyJson');
-      final c = Post.fromJson(bodyJson);
-      print(
-          'Success getPost $author - $this.permlink body.len=${c.body.length}');
-      return c;
+      return Post.fromJson(jsonDecode(bodyJson['result']));
     } catch (e, s) {
       print('Failed to parse $author - $permlink: $e');
       print(s);
@@ -81,21 +95,36 @@ class BridgeApiClient {
     }
   }
 
-  Future<Discussion> getDiscussion(
-      {required String author, required String permlink}) async {
-    final postResponse = await _httpClient.post(_uri, body: {
-      'jsonrpc': '2.0',
-      'method': 'brige.get_discussion',
-      'params': {author: author, permlink: permlink},
-      'id': 1
-    });
+  Future<Discussion> getDiscussion(String author, String permlink) async {
+    final postResponse = await _httpClient.post(_uri,
+        body: jsonEncode({
+          'jsonrpc': '2.0',
+          'method': 'bridge.get_discussion',
+          'params': {'author': author, 'permlink': permlink},
+          'id': 1
+        }));
     if (postResponse.statusCode != 200) {
       throw ContentRequestFailure(statusCode: postResponse.statusCode);
     }
 
     final bodyJson = jsonDecode(postResponse.body);
 
-    return Discussion.fromJson(bodyJson);
+    if (bodyJson['error'] != null) {
+      if (bodyJson['error']['code'] == -32602) {
+        throw PostNotFoundFailure(author, permlink);
+      } else {
+        throw JsonRpcError(bodyJson['error']);
+      }
+    }
+
+    try {
+      return Discussion.fromJson(jsonDecode(bodyJson['result']));
+    } catch (e, s) {
+      print('Failed to parse $author - $permlink: $e');
+      print(s);
+      print('Failed data: $bodyJson');
+      throw e;
+    }
   }
 
   Future<List<dynamic>> getFeedJson(

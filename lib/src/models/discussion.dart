@@ -6,10 +6,10 @@ part 'discussion.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Discussion extends Equatable {
-  final Post root;
+  final Post post;
   final Map<String, Post> comments;
 
-  Discussion(this.root, {this.comments = const {}});
+  Discussion(this.post, {this.comments = const {}});
 
   factory Discussion.fromJson(Map<String, dynamic> json) {
     final rootKey = json.keys.first;
@@ -23,7 +23,7 @@ class Discussion extends Equatable {
   Map<String, dynamic> toJson() => _$DiscussionToJson(this);
 
   @override
-  List<Object?> get props => [root, comments];
+  List<Object?> get props => [post, comments];
 
   @override
   String toString() => 'Discussion len=${comments.length}';

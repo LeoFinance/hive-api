@@ -3,24 +3,24 @@ import 'dart:io';
 
 import 'package:hive_bridge_api/hive_bridge_api.dart';
 
-Future<JsonMetadata> fakeJsonMetadata() async =>
-    File('test/helpers/fake_post.json')
+Future<JsonMetadata> sampleJsonMetadata() async =>
+    File('test/samples/post.json')
         .readAsString()
         .then(jsonDecode)
         .then((json) => JsonMetadata.fromJson(json["json_metadata"]));
 
-Future<Post> fakePost() async => File('test/helpers/fake_post.json')
+Future<Post> samplePost() async => File('test/samples/post.json')
     .readAsString()
     .then(jsonDecode)
     .then((json) => Post.fromJson(json));
 
-Future<Stats> fakeStats() async => File('test/helpers/fake_post.json')
+Future<Stats> sampleStats() async => File('test/samples/post.json')
     .readAsString()
     .then(jsonDecode)
     .then((json) => Stats.fromJson(json["stats"]));
 
-Future<Discussion> fakeDiscussion() async =>
-    File('test/helpers/fake_discussion.json')
+Future<Discussion> sampleDiscussion() async =>
+    File('test/samples/discussion.json')
         .readAsString()
         .then(jsonDecode)
         .then((json) => Discussion.fromJson(json));

@@ -7,20 +7,20 @@ void main() {
   group('Post', () {
     group('fromJson', () {
       test('decodes from JSON', () async {
-        final json = await File('test/helpers/fake_post.json')
+        final json = await File('test/samples/post.json')
             .readAsString()
             .then(jsonDecode);
 
         expect(
             Post.fromJson(json),
-            isA<Post>()
-                .having((c) => c.beneficiaries, 'beneficiaries', []).having(
-                    (c) => c.replies, 'replies', []) // always empty
+            isA<Post>().having((c) => c.beneficiaries, 'beneficiaries', [
+              Beneficiary(account: 'archon-gov', weight: 500)
+            ]).having((c) => c.replies, 'replies', []) // always empty
             );
       });
 
       test('decodes 3Speak content from JSON', () async {
-        final json = await File('test/helpers/fake_3speak_post.json')
+        final json = await File('test/samples/3speak_post.json')
             .readAsString()
             .then(jsonDecode);
 
@@ -31,7 +31,7 @@ void main() {
       });
 
       test('allows empty beneficiaries', () async {
-        final json = await File('test/helpers/fake_post.json')
+        final json = await File('test/samples/post.json')
             .readAsString()
             .then(jsonDecode);
         json["beneficiaries"] = [];
