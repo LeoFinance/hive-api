@@ -14,20 +14,16 @@ import 'hive_bridge_api_client_test.mocks.dart';
 void main() {
   group('BridgeApiClient', () {
     late MockClient httpClient;
-    late BridgeApiClient bridgeApiClient;
-
-    // setUpAll(() {
-    //   registerFallbackValue<Uri>(FakeUri());
-    // });
+    late HiveBridgeApiClient bridgeApiClient;
 
     setUp(() {
       httpClient = MockClient();
-      bridgeApiClient = BridgeApiClient(httpClient: httpClient);
+      bridgeApiClient = HiveBridgeApiClient(httpClient: httpClient);
     });
 
     group('constructor', () {
       test('does not require an httpClient', () {
-        expect(BridgeApiClient(), isNotNull);
+        expect(HiveBridgeApiClient(), isNotNull);
       });
     });
 
