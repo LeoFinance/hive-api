@@ -68,7 +68,8 @@ void main() {
         when(response.statusCode).thenReturn(200);
         when(response.body).thenReturn(jsonEncode({
           "jsonrpc": "2.0",
-          "result": await File('test/samples/post.json').readAsString(),
+          "result":
+              jsonDecode(await File('test/samples/post.json').readAsString()),
           "id": 1
         }));
         when(httpClient.post(hiveBlogUri, body: anyNamed('body')))
@@ -143,7 +144,8 @@ void main() {
         when(response.statusCode).thenReturn(200);
         when(response.body).thenReturn(jsonEncode({
           "jsonrpc": "2.0",
-          "result": await File('test/samples/discussion.json').readAsString(),
+          "result": jsonDecode(
+              await File('test/samples/discussion.json').readAsString()),
           "id": 1
         }));
         when(httpClient.post(hiveBlogUri, body: anyNamed('body')))
