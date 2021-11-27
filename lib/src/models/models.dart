@@ -1,7 +1,11 @@
 export 'active_vote.dart';
 export 'beneficiary.dart';
+export 'database_global_properties.dart';
 export 'discussion.dart';
+export 'following.dart';
+export 'follow_count.dart';
 export 'post.dart';
+export 'profile.dart';
 export 'json_metadata.dart';
 export 'stats.dart';
 export 'video.dart';

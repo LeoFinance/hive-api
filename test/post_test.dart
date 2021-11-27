@@ -40,5 +40,15 @@ void main() {
             isA<Post>().having((c) => c.beneficiaries, 'beneficiaries', []));
       });
     });
+
+    test('can get authorperm', () async {
+      final json =
+          await File('test/samples/post.json').readAsString().then(jsonDecode);
+
+      expect(
+          Post.fromJson(json),
+          isA<Post>().having((c) => c.authorperm, 'authorperm',
+              '@cwow2/selling-my-hive-goodbye'));
+    });
   });
 }

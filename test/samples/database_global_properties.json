@@ -1,0 +1,88 @@
+{
+  "id": 0,
+  "head_block_number": 59317056,
+  "head_block_id": "03891b407602895b6e7fe647cabb672ed0126970",
+  "time": "2021-11-19T17:01:24",
+  "current_witness": "stoodkev",
+  "total_pow": 514415,
+  "num_pow_witnesses": 172,
+  "virtual_supply": {
+    "amount": "390309700911",
+    "precision": 3,
+    "nai": "@@000000021"
+  },
+  "current_supply": {
+    "amount": "367137755770",
+    "precision": 3,
+    "nai": "@@000000021"
+  },
+  "init_hbd_supply": {
+    "amount": "0",
+    "precision": 3,
+    "nai": "@@000000013"
+  },
+  "current_hbd_supply": {
+    "amount": "23357320703",
+    "precision": 3,
+    "nai": "@@000000013"
+  },
+  "total_vesting_fund_hive": {
+    "amount": "147395108568",
+    "precision": 3,
+    "nai": "@@000000021"
+  },
+  "total_vesting_shares": {
+    "amount": "273529264255193117",
+    "precision": 6,
+    "nai": "@@000000037"
+  },
+  "total_reward_fund_hive": {
+    "amount": "0",
+    "precision": 3,
+    "nai": "@@000000021"
+  },
+  "total_reward_shares2": "0",
+  "pending_rewarded_vesting_shares": {
+    "amount": "741296126097829",
+    "precision": 6,
+    "nai": "@@000000037"
+  },
+  "pending_rewarded_vesting_hive": {
+    "amount": "378891190",
+    "precision": 3,
+    "nai": "@@000000021"
+  },
+  "hbd_interest_rate": 1000,
+  "hbd_print_rate": 10000,
+  "maximum_block_size": 65536,
+  "required_actions_partition_percent": 0,
+  "current_aslot": 59502028,
+  "recent_slots_filled": "340282366920938463463374607431768211455",
+  "participation_count": 128,
+  "last_irreversible_block_num": 59317041,
+  "vote_power_reserve_rate": 10,
+  "delegation_return_period": 432000,
+  "reverse_auction_seconds": 0,
+  "available_account_subsidies": 11639205,
+  "hbd_stop_percent": 1000,
+  "hbd_start_percent": 900,
+  "next_maintenance_time": "2021-11-19T17:31:48",
+  "last_budget_time": "2021-11-19T16:31:48",
+  "next_daily_maintenance_time": "2021-11-19T19:31:30",
+  "content_reward_percent": 6500,
+  "vesting_reward_percent": 1500,
+  "sps_fund_percent": 1000,
+  "sps_interval_ledger": {
+    "amount": "162876",
+    "precision": 3,
+    "nai": "@@000000013"
+  },
+  "downvote_pool_percent": 2500,
+  "current_remove_threshold": 200,
+  "early_voting_seconds": 86400,
+  "mid_voting_seconds": 172800,
+  "max_consecutive_recurrent_transfer_failures": 10,
+  "max_recurrent_transfer_end_date": 730,
+  "min_recurrent_transfers_recurrence": 24,
+  "max_open_recurrent_transfers": 255
+}

@@ -100,6 +100,8 @@ class Post extends Equatable {
 
   Map<String, dynamic> toJson() => _$PostToJson(this);
 
+  String get authorperm => '@$author/$permlink';
+
   @override
   List<Object?> get props => [
         postId,
