@@ -26,8 +26,8 @@ void main() {
 
         expect(
             Post.fromJson(json),
-            isA<Post>().having((c) => c.jsonMetadata.video!.info.title, 'video',
-                'FTX Valued \$25 Billion'));
+            isA<Post>().having((c) => c.jsonMetadata.video!.info!.title,
+                'video', 'FTX Valued \$25 Billion'));
       });
 
       test('allows empty beneficiaries', () async {

@@ -4,7 +4,8 @@ import 'models.dart';
 
 part 'json_metadata.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(
+    fieldRename: FieldRename.snake, explicitToJson: true, includeIfNull: false)
 class JsonMetadata extends Equatable {
   final String? app;
   final String? type;

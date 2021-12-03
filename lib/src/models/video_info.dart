@@ -28,8 +28,8 @@ class VideoInfo extends Equatable {
   final String file;
   final String lang;
   final bool firstUpload;
-  final String ipfs;
-  final String ipfsThumbnail;
+  final String? ipfs;
+  final String? ipfsThumbnail;
 
   factory VideoInfo.fromJson(Map<String, dynamic> json) =>
       _$VideoInfoFromJson(json);
@@ -37,7 +37,7 @@ class VideoInfo extends Equatable {
   Map<String, dynamic> toJson() => _$VideoInfoToJson(this);
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         platform,
         title,
         author,

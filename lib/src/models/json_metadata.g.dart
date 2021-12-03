@@ -20,14 +20,22 @@ JsonMetadata _$JsonMetadataFromJson(Map<String, dynamic> json) => JsonMetadata(
           : Video.fromJson(json['video'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$JsonMetadataToJson(JsonMetadata instance) =>
-    <String, dynamic>{
-      'app': instance.app,
-      'type': instance.type,
-      'format': instance.format,
-      'canonical_url': instance.canonicalUrl,
-      'tags': instance.tags,
-      'links': instance.links,
-      'video': instance.video?.toJson(),
-      'image': instance.image,
-    };
+Map<String, dynamic> _$JsonMetadataToJson(JsonMetadata instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('app', instance.app);
+  writeNotNull('type', instance.type);
+  val['format'] = instance.format;
+  writeNotNull('canonical_url', instance.canonicalUrl);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('links', instance.links);
+  writeNotNull('video', instance.video?.toJson());
+  writeNotNull('image', instance.image);
+  return val;
+}

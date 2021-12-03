@@ -16,8 +16,8 @@ VideoInfo _$VideoInfoFromJson(Map<String, dynamic> json) => VideoInfo(
       file: json['file'] as String,
       lang: json['lang'] as String,
       firstUpload: json['firstUpload'] as bool,
-      ipfs: json['ipfs'] as String,
-      ipfsThumbnail: json['ipfsThumbnail'] as String,
+      ipfs: json['ipfs'] as String?,
+      ipfsThumbnail: json['ipfsThumbnail'] as String?,
     );
 
 Map<String, dynamic> _$VideoInfoToJson(VideoInfo instance) => <String, dynamic>{

@@ -8,7 +8,7 @@ class Beneficiary extends Equatable {
   final String account;
   final int weight;
 
-  Beneficiary({required this.account, required this.weight});
+  const Beneficiary({required this.account, required this.weight});
 
   factory Beneficiary.fromJson(Map<String, dynamic> json) =>
       _$BeneficiaryFromJson(json);
