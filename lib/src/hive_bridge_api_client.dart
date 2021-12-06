@@ -259,6 +259,44 @@ class HiveBridgeApiClient {
       throw e;
     }
   }
+
+  Future<List<AccountNotification>> getAccountNotifications(
+      {required String account, int? limit}) async {
+    if (limit != null && limit > 100) {
+      throw InvalidParametersException('Limit cannot exceed 100');
+    }
+
+    var params = {'account': account, 'limit': limit};
+
+    final postResponse = await _httpClient.post(_uri,
+        body:
+            _buildBody(method: 'bridge.account_notifications', params: params));
+    if (postResponse.statusCode != 200) {
+      throw ContentRequestFailure(statusCode: postResponse.statusCode);
+    }
+    print('getAccountNotifications ${postResponse.body}');
+
+    final bodyJson = jsonDecode(postResponse.body);
+
+    try {
+      final list = bodyJson['result'] as List;
+      return list.map((d) => AccountNotification.fromJson(d)).toList();
+    } catch (e, s) {
+      print('Failed to parse: $e');
+      print(s);
+      print('Failed data: $bodyJson');
+      throw e;
+    }
+  }
+}
+
+class InvalidParametersException implements Exception {
+  final String message;
+
+  const InvalidParametersException(this.message);
+
+  @override
+  String toString() => 'InvalidParametersException: $message';
 }
 
 /// Exception thrown when call fails.

@@ -4,6 +4,7 @@ export 'database_global_properties.dart';
 export 'discussion.dart';
 export 'following.dart';
 export 'follow_count.dart';
+export 'account_notification.dart';
 export 'post.dart';
 export 'profile.dart';
 export 'json_metadata.dart';
