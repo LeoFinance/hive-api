@@ -38,7 +38,7 @@ void main() {
         when(httpClient.post(hiveBlogUri, body: anyNamed('body')))
             .thenAnswer((_) async => response);
         expect(
-          bridgeApiClient.getPost(author, permlink),
+          bridgeApiClient.getPost(author: author, permlink: permlink),
           throwsA(isA<ContentRequestFailure>()),
         );
       });
@@ -58,8 +58,8 @@ void main() {
         when(httpClient.post(hiveBlogUri, body: anyNamed('body')))
             .thenAnswer((_) async => response);
         expect(
-          bridgeApiClient.getPost(author, permlink),
-          throwsA(isA<PostNotFoundFailure>()),
+          bridgeApiClient.getPost(author: author, permlink: permlink),
+          throwsA(isA<NotFoundFailure>()),
         );
       });
 
@@ -74,7 +74,8 @@ void main() {
         }));
         when(httpClient.post(hiveBlogUri, body: anyNamed('body')))
             .thenAnswer((_) async => response);
-        final actual = await bridgeApiClient.getPost(author, permlink);
+        final actual =
+            await bridgeApiClient.getPost(author: author, permlink: permlink);
         verify(
           // httpClient.post(hiveBlogUri, body: {
           //   'jsonrpc': '2.0',
@@ -114,7 +115,7 @@ void main() {
         when(httpClient.post(hiveBlogUri, body: anyNamed('body')))
             .thenAnswer((_) async => response);
         expect(
-          bridgeApiClient.getPost(author, permlink),
+          bridgeApiClient.getPost(author: author, permlink: permlink),
           throwsA(isA<ContentRequestFailure>()),
         );
       });
@@ -134,8 +135,8 @@ void main() {
         when(httpClient.post(hiveBlogUri, body: anyNamed('body')))
             .thenAnswer((_) async => response);
         expect(
-          bridgeApiClient.getPost(author, permlink),
-          throwsA(isA<PostNotFoundFailure>()),
+          bridgeApiClient.getPost(author: author, permlink: permlink),
+          throwsA(isA<NotFoundFailure>()),
         );
       });
 
@@ -150,7 +151,8 @@ void main() {
         }));
         when(httpClient.post(hiveBlogUri, body: anyNamed('body')))
             .thenAnswer((_) async => response);
-        final actual = await bridgeApiClient.getDiscussion(author, permlink);
+        final actual = await bridgeApiClient.getDiscussion(
+            author: author, permlink: permlink);
         verify(
           // httpClient.post(hiveBlogUri, body: {
           //   'jsonrpc': '2.0',

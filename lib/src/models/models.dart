@@ -1,3 +1,5 @@
+export 'account.dart';
+export 'account_history_entry.dart';
 export 'active_vote.dart';
 export 'beneficiary.dart';
 export 'database_global_properties.dart';
@@ -9,6 +11,8 @@ export 'post.dart';
 export 'profile.dart';
 export 'json_metadata.dart';
 export 'stats.dart';
+export 'unread_notifications.dart';
 export 'video.dart';
 export 'video_info.dart';
 export 'video_content.dart';
+export 'vote.dart';

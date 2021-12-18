@@ -4,7 +4,9 @@ import 'dart:math';
 
 import 'package:hive_bridge_api/src/models/account_reputations.dart';
 import 'package:hive_bridge_api/src/models/follow_count.dart';
+import 'package:hive_bridge_api/src/models/unread_notifications.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import '../hive_bridge_api.dart';
 
 class HiveBridgeApiClient {
@@ -19,17 +21,11 @@ class HiveBridgeApiClient {
   HiveBridgeApiClient({http.Client? httpClient})
       : _httpClient = httpClient ?? http.Client();
 
-  Future<Post> getPost(String author, String permlink) async {
-    final postResponse = await _httpClient.post(_uri,
-        body: _buildBody(
-            method: 'bridge.get_post',
-            params: {'author': author, 'permlink': permlink}));
-
-    if (postResponse.statusCode != 200) {
-      throw ContentRequestFailure(statusCode: postResponse.statusCode);
-    }
-
-    final bodyJson = jsonDecode(postResponse.body) as Map<String, dynamic>;
+  Future<Post> getPost(
+      {required String author, required String permlink}) async {
+    final bodyJson = await _fetchPostData(
+        method: 'bridge.get_post',
+        params: {'author': author, 'permlink': permlink});
 
     try {
       return Post.fromJson(bodyJson['result']);
@@ -39,6 +35,28 @@ class HiveBridgeApiClient {
       print('Failed data: $bodyJson');
       throw e;
     }
+  }
+
+  Future<Map<String, dynamic>> _fetchPostData(
+      {required String method, dynamic params}) async {
+    final response = await _httpClient.post(_uri,
+        body: _buildBody(method: method, params: params));
+
+    if (response.statusCode != 200) {
+      throw ContentRequestFailure(statusCode: response.statusCode);
+    }
+
+    final bodyJson = jsonDecode(response.body) as Map<String, dynamic>;
+
+    if (bodyJson['error'] != null) {
+      if (bodyJson['error']['code'] == -32602) {
+        throw NotFoundFailure(
+            'Data not found for method $method with params $params');
+      } else {
+        throw JsonRpcError(bodyJson['error']);
+      }
+    }
+    return bodyJson;
   }
 
   String _buildBody({required String method, dynamic params}) {
@@ -53,24 +71,11 @@ class HiveBridgeApiClient {
     return jsonEncode(body);
   }
 
-  Future<Discussion> getDiscussion(String author, String permlink) async {
-    final postResponse = await _httpClient.post(_uri,
-        body: _buildBody(
-            method: 'bridge.get_discussion',
-            params: {'author': author, 'permlink': permlink}));
-    if (postResponse.statusCode != 200) {
-      throw ContentRequestFailure(statusCode: postResponse.statusCode);
-    }
-
-    final bodyJson = jsonDecode(postResponse.body);
-
-    if (bodyJson['error'] != null) {
-      if (bodyJson['error']['code'] == -32602) {
-        throw PostNotFoundFailure(author, permlink);
-      } else {
-        throw JsonRpcError(bodyJson['error']);
-      }
-    }
+  Future<Discussion> getDiscussion(
+      {required String author, required String permlink}) async {
+    final bodyJson = await _fetchPostData(
+        method: 'bridge.get_discussion',
+        params: {'author': author, 'permlink': permlink});
 
     try {
       return Discussion.fromJson(bodyJson['result']);
@@ -96,22 +101,8 @@ class HiveBridgeApiClient {
   }
 
   Future<Profile> getProfile(String account) async {
-    final postResponse = await _httpClient.post(_uri,
-        body: _buildBody(
-            method: 'bridge.get_profile', params: {'account': account}));
-    if (postResponse.statusCode != 200) {
-      throw ContentRequestFailure(statusCode: postResponse.statusCode);
-    }
-
-    final bodyJson = jsonDecode(postResponse.body);
-
-    if (bodyJson['error'] != null) {
-      if (bodyJson['error']['code'] == -32602) {
-        throw ProfileNotFoundFailure(account);
-      } else {
-        throw JsonRpcError(bodyJson['error']);
-      }
-    }
+    final bodyJson = await _fetchPostData(
+        method: 'bridge.get_profile', params: {'account': account});
 
     try {
       return Profile.fromJson(bodyJson['result']);
@@ -124,22 +115,8 @@ class HiveBridgeApiClient {
   }
 
   Future<FollowCount> getFollowCount(String account) async {
-    final postResponse = await _httpClient.post(_uri,
-        body: _buildBody(
-            method: 'condenser_api.get_follow_count', params: [account]));
-    if (postResponse.statusCode != 200) {
-      throw ContentRequestFailure(statusCode: postResponse.statusCode);
-    }
-
-    final bodyJson = jsonDecode(postResponse.body);
-
-    if (bodyJson['error'] != null) {
-      if (bodyJson['error']['code'] == -32602) {
-        throw ProfileNotFoundFailure(account);
-      } else {
-        throw JsonRpcError(bodyJson['error']);
-      }
-    }
+    final bodyJson = await _fetchPostData(
+        method: 'condenser_api.get_follow_count', params: [account]);
 
     try {
       return FollowCount.fromJson(bodyJson['result']);
@@ -151,28 +128,11 @@ class HiveBridgeApiClient {
     }
   }
 
-  Future<List<Following>> getFollowing(
-      {required String account,
-      int? start,
-      required String type,
-      int? limit}) async {
-    final postResponse = await _httpClient.post(_uri,
-        body: _buildBody(
-            method: 'condenser_api.get_following',
-            params: [account, start, type, limit]));
-    if (postResponse.statusCode != 200) {
-      throw ContentRequestFailure(statusCode: postResponse.statusCode);
-    }
-
-    final bodyJson = jsonDecode(postResponse.body);
-
-    if (bodyJson['error'] != null) {
-      if (bodyJson['error']['code'] == -32602) {
-        throw ProfileNotFoundFailure(account);
-      } else {
-        throw JsonRpcError(bodyJson['error']);
-      }
-    }
+  Future<List<Following>> getFollowing(String account,
+      {int? start, required String type, int? limit}) async {
+    final bodyJson = await _fetchPostData(
+        method: 'condenser_api.get_following',
+        params: [account, start, type, limit]);
 
     try {
       final resultList = bodyJson['result'] as List;
@@ -186,13 +146,8 @@ class HiveBridgeApiClient {
   }
 
   Future<DatabaseGlobalProperties> getDatabaseGlobalProperties() async {
-    final postResponse = await _httpClient.post(_uri,
-        body: _buildBody(method: 'database_api.get_dynamic_global_properties'));
-    if (postResponse.statusCode != 200) {
-      throw ContentRequestFailure(statusCode: postResponse.statusCode);
-    }
-
-    final bodyJson = jsonDecode(postResponse.body);
+    final bodyJson = await _fetchPostData(
+        method: 'database_api.get_dynamic_global_properties');
 
     try {
       return DatabaseGlobalProperties.fromJson(bodyJson['result']);
@@ -204,24 +159,35 @@ class HiveBridgeApiClient {
     }
   }
 
-  Future<AccountReputations> getAccountReputations(
-      {String? accountLowerBounds, int? limit}) async {
-    var params = {};
-    if (accountLowerBounds != null) {
-      params['account_lower_bound'] = accountLowerBounds;
+  Future<List<Account>> getAccounts(List<String> usernames) async {
+    final bodyJson = await _fetchPostData(
+        method: 'condenser_api.get_accounts', params: [usernames]);
+
+    print('getAccounts $bodyJson');
+
+    try {
+      final list = bodyJson['result'] as List;
+      return list.map((d) => Account.fromJson(d)).toList();
+    } catch (e, s) {
+      print('Failed to parse: $e');
+      print(s);
+      print('Failed data: $bodyJson');
+      throw e;
     }
+  }
+
+  Future<AccountReputations> getAccountReputations(String accountLowerBounds,
+      {int? limit}) async {
+    final Map<String, dynamic> params = {
+      'account_lower_bound': accountLowerBounds
+    };
+
     if (limit != null) {
       params['limit'] = limit;
     }
 
-    final postResponse = await _httpClient.post(_uri,
-        body: _buildBody(
-            method: 'reputation_api.get_account_reputations', params: params));
-    if (postResponse.statusCode != 200) {
-      throw ContentRequestFailure(statusCode: postResponse.statusCode);
-    }
-
-    final bodyJson = jsonDecode(postResponse.body);
+    final bodyJson = await _fetchPostData(
+        method: 'reputation_api.get_account_reputations', params: params);
 
     print('getAccountReputations $bodyJson');
 
@@ -235,20 +201,57 @@ class HiveBridgeApiClient {
     }
   }
 
-  Future<List<dynamic>> lookupAccounts(
-      {String? lowerBoundName, int? limit}) async {
-    var params = [lowerBoundName, limit];
-
-    final postResponse = await _httpClient.post(_uri,
-        body: _buildBody(
-            method: 'condenser_api.lookup_accounts', params: params));
-    if (postResponse.statusCode != 200) {
-      throw ContentRequestFailure(statusCode: postResponse.statusCode);
-    }
-
-    final bodyJson = jsonDecode(postResponse.body);
+  Future<List<AccountHistoryEntry>> getAccountHistory(String accountName,
+      {int start = 0, int size = 20}) async {
+    final bodyJson = await _fetchPostData(
+        method: 'condenser_api.get_account_history',
+        params: [accountName, start, size]);
 
     print('getAccountReputations $bodyJson');
+
+    try {
+      final entries = bodyJson['result'] as List<dynamic>;
+      return entries
+          .map((entry) => AccountHistoryEntry.fromJson(entry[1]))
+          .toList();
+    } catch (e, s) {
+      print('Failed to parse: $e');
+      print(s);
+      print('Failed data: $bodyJson');
+      throw e;
+    }
+  }
+
+  Future<List<Vote>> listVotes(
+      {String? voter,
+      String? author,
+      String? permlink,
+      required int limit}) async {
+    final bodyJson =
+        await _fetchPostData(method: 'database_api.list_votes', params: {
+      'start': [voter ?? '', author ?? '', permlink ?? ''],
+      'limit': limit,
+      'order': 'by_voter_comment'
+    });
+
+    try {
+      final list = bodyJson['result']['votes'] as List;
+      return list.map((d) => Vote.fromJson(d)).toList();
+    } catch (e, s) {
+      print('Failed to parse: $e');
+      print(s);
+      print('Failed data: $bodyJson');
+      throw e;
+    }
+  }
+
+  Future<List<dynamic>> lookupAccounts(String lowerBoundName,
+      {int? limit}) async {
+    final bodyJson = await _fetchPostData(
+        method: 'condenser_api.lookup_accounts',
+        params: [lowerBoundName, limit]);
+
+    print('lookupAccounts $bodyJson');
 
     try {
       return bodyJson['result'] as List<dynamic>;
@@ -260,27 +263,34 @@ class HiveBridgeApiClient {
     }
   }
 
-  Future<List<AccountNotification>> getAccountNotifications(
-      {required String account, int? limit}) async {
+  Future<List<AccountNotification>> getAccountNotifications(String account,
+      {int? limit}) async {
     if (limit != null && limit > 100) {
       throw InvalidParametersException('Limit cannot exceed 100');
     }
 
-    var params = {'account': account, 'limit': limit};
-
-    final postResponse = await _httpClient.post(_uri,
-        body:
-            _buildBody(method: 'bridge.account_notifications', params: params));
-    if (postResponse.statusCode != 200) {
-      throw ContentRequestFailure(statusCode: postResponse.statusCode);
-    }
-    print('getAccountNotifications ${postResponse.body}');
-
-    final bodyJson = jsonDecode(postResponse.body);
+    final bodyJson = await _fetchPostData(
+        method: 'bridge.account_notifications',
+        params: {'account': account, 'limit': limit});
 
     try {
       final list = bodyJson['result'] as List;
       return list.map((d) => AccountNotification.fromJson(d)).toList();
+    } catch (e, s) {
+      print('Failed to parse: $e');
+      print(s);
+      print('Failed data: $bodyJson');
+      throw e;
+    }
+  }
+
+  Future<UnreadNotifications> getUnreadNotifications(String account) async {
+    final bodyJson = await _fetchPostData(
+        method: 'bridge.unread_notifications', params: {'account': account});
+
+    try {
+      final json = bodyJson['result'];
+      return UnreadNotifications.fromJson(json);
     } catch (e, s) {
       print('Failed to parse: $e');
       print(s);
@@ -311,25 +321,13 @@ class ContentRequestFailure implements Exception {
   }
 }
 
-/// Exception thrown when post is not found.
-class PostNotFoundFailure implements Exception {
-  final String author;
-  final String permlink;
+class NotFoundFailure implements Exception {
+  final String message;
 
-  PostNotFoundFailure(this.author, this.permlink);
+  const NotFoundFailure(this.message);
 
   @override
-  String toString() => 'PostNotFoundFailure: $author - $permlink';
-}
-
-/// Exception thrown when profile is not found.
-class ProfileNotFoundFailure implements Exception {
-  final String account;
-
-  ProfileNotFoundFailure(this.account);
-
-  @override
-  String toString() => 'ProfileNotFoundFailure: $account';
+  String toString() => 'NotFoundFailure: $message';
 }
 
 class JsonRpcError implements Exception {
@@ -345,14 +343,4 @@ class JsonRpcError implements Exception {
 
   @override
   String toString() => 'JsonRpcError ($code) $message: $data';
-}
-
-class FeedNotFoundFailure implements Exception {
-  final String tag;
-  final String sort;
-
-  FeedNotFoundFailure({required this.tag, required this.sort});
-
-  @override
-  String toString() => 'FeedNotFoundFailure: $tag / $sort';
 }
