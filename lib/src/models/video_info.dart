@@ -13,10 +13,10 @@ class VideoInfo extends Equatable {
     required this.duration,
     required this.filesize,
     required this.file,
-    required this.lang,
-    required this.firstUpload,
-    required this.ipfs,
-    required this.ipfsThumbnail,
+    this.lang,
+    this.firstUpload,
+    this.ipfs,
+    this.ipfsThumbnail,
   });
 
   final String platform;
@@ -26,8 +26,8 @@ class VideoInfo extends Equatable {
   final double duration;
   final int filesize;
   final String file;
-  final String lang;
-  final bool firstUpload;
+  final String? lang;
+  final bool? firstUpload;
   final String? ipfs;
   final String? ipfsThumbnail;
 

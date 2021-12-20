@@ -251,8 +251,6 @@ class HiveBridgeApiClient {
         method: 'condenser_api.lookup_accounts',
         params: [lowerBoundName, limit]);
 
-    print('lookupAccounts $bodyJson');
-
     try {
       return bodyJson['result'] as List<dynamic>;
     } catch (e, s) {
