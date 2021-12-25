@@ -30,7 +30,7 @@ class HiveBridgeApiClient {
     try {
       return Post.fromJson(bodyJson['result']);
     } catch (e, s) {
-      print('Failed to parse $author - $permlink: $e');
+      print('Failed to parse @$author/$permlink: $e');
       print(s);
       print('Failed data: $bodyJson');
       throw e;
@@ -80,7 +80,7 @@ class HiveBridgeApiClient {
     try {
       return Discussion.fromJson(bodyJson['result']);
     } catch (e, s) {
-      print('Failed to parse $author - $permlink: $e');
+      print('Failed to parse @$author/$permlink: $e');
       print(s);
       print('Failed data: $bodyJson');
       throw e;
@@ -100,19 +100,19 @@ class HiveBridgeApiClient {
     return jsonDecode(postResponse.body) as List<dynamic>;
   }
 
-  Future<Profile> getProfile(String account) async {
-    final bodyJson = await _fetchPostData(
-        method: 'bridge.get_profile', params: {'account': account});
+  // Future<Profile> getProfile(String account) async {
+  //   final bodyJson = await _fetchPostData(
+  //       method: 'bridge.get_profile', params: {'account': account});
 
-    try {
-      return Profile.fromJson(bodyJson['result']);
-    } catch (e, s) {
-      print('Failed to parse $account: $e');
-      print(s);
-      print('Failed data: $bodyJson');
-      throw e;
-    }
-  }
+  //   try {
+  //     return Profile.fromJson(bodyJson['result']);
+  //   } catch (e, s) {
+  //     print('Failed to parse $account: $e');
+  //     print(s);
+  //     print('Failed data: $bodyJson');
+  //     throw e;
+  //   }
+  // }
 
   Future<FollowCount> getFollowCount(String account) async {
     final bodyJson = await _fetchPostData(
@@ -207,7 +207,7 @@ class HiveBridgeApiClient {
         method: 'condenser_api.get_account_history',
         params: [accountName, start, size]);
 
-    print('getAccountReputations $bodyJson');
+    print('getAccountHistory $bodyJson');
 
     try {
       final entries = bodyJson['result'] as List<dynamic>;
@@ -331,7 +331,7 @@ class NotFoundFailure implements Exception {
 class JsonRpcError implements Exception {
   final int code;
   final String message;
-  final String data;
+  final Map<String, dynamic> data;
 
   // {code: -32602, message: Invalid parameters, data: missing a required argument: 'author'}
   JsonRpcError(dynamic errorObj)

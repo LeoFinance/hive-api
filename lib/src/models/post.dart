@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive_bridge_api/src/helpers.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'models.dart';
 
@@ -39,14 +40,10 @@ class Post extends Equatable {
       required this.percentHbd,
       required this.activeVotes,
       required this.blacklists,
-      required this.community,
-      required this.communityTitle,
-      required this.authorRole,
-      required this.authorTitle});
-
-  static DateTime _toUTC(String json) {
-    return DateTime.parse(json + (json.endsWith('Z') ? '' : 'Z'));
-  }
+      this.community,
+      this.communityTitle,
+      this.authorRole,
+      this.authorTitle});
 
   final int postId;
   final String author;
@@ -55,15 +52,15 @@ class Post extends Equatable {
   final String title;
   final String body;
   final JsonMetadata jsonMetadata;
-  @JsonKey(fromJson: _toUTC)
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime created;
-  @JsonKey(fromJson: _toUTC)
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime updated;
   final int depth;
   final int children;
   final int netRshares;
   final bool isPaidout;
-  @JsonKey(fromJson: _toUTC)
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime payoutAt;
   final double payout;
   final String pendingPayoutValue;
@@ -83,10 +80,10 @@ class Post extends Equatable {
   final int percentHbd;
   final List<ActiveVote> activeVotes;
   final List<String> blacklists;
-  final String community;
-  final String communityTitle;
-  final String authorRole;
-  final String authorTitle;
+  final String? community;
+  final String? communityTitle;
+  final String? authorRole;
+  final String? authorTitle;
 
   factory Post.fromJson(Map<String, dynamic> json) {
     try {
@@ -127,4 +124,7 @@ class Post extends Equatable {
         netRshares,
         activeVotes
       ];
+
+  @override
+  String toString() => 'hive_api.Post @$author/$permlink';
 }

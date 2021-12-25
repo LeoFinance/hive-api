@@ -14,7 +14,7 @@ AccountHistoryEntry _$AccountHistoryEntryFromJson(Map<String, dynamic> json) =>
       opInTrx: json['op_in_trx'] as int,
       virtualOp: json['virtual_op'] as int,
       timestamp: DateTime.parse(json['timestamp'] as String),
-      op: Op.fromJson(json['op'] as Map<String, dynamic>),
+      op: AccountHistoryEntry._arrayToOp(json['op'] as List),
     );
 
 Map<String, dynamic> _$AccountHistoryEntryToJson(
@@ -26,7 +26,7 @@ Map<String, dynamic> _$AccountHistoryEntryToJson(
       'op_in_trx': instance.opInTrx,
       'virtual_op': instance.virtualOp,
       'timestamp': instance.timestamp.toIso8601String(),
-      'op': instance.op.toJson(),
+      'op': AccountHistoryEntry._opToArray(instance.op),
     };
 
 Op _$OpFromJson(Map<String, dynamic> json) => Op(
@@ -51,4 +51,28 @@ Map<String, dynamic> _$VoteOpToJson(VoteOp instance) => <String, dynamic>{
       'author': instance.author,
       'permlink': instance.permlink,
       'weight': instance.weight,
+    };
+
+EffectiveCommentVoteOp _$EffectiveCommentVoteOpFromJson(
+        Map<String, dynamic> json) =>
+    EffectiveCommentVoteOp(
+      voter: json['voter'] as String,
+      author: json['author'] as String,
+      permlink: json['permlink'] as String,
+      weight: json['weight'] as int,
+      rshares: json['rshares'] as int,
+      totalVoteWeight: json['total_vote_weight'] as int,
+      pendingPayout: fromHbd(json['pending_payout'] as String),
+    );
+
+Map<String, dynamic> _$EffectiveCommentVoteOpToJson(
+        EffectiveCommentVoteOp instance) =>
+    <String, dynamic>{
+      'voter': instance.voter,
+      'author': instance.author,
+      'permlink': instance.permlink,
+      'weight': instance.weight,
+      'rshares': instance.rshares,
+      'total_vote_weight': instance.totalVoteWeight,
+      'pending_payout': toHbd(instance.pendingPayout),
     };

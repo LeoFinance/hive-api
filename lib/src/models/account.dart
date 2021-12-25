@@ -1,6 +1,6 @@
-import 'dart:convert';
-
 import 'package:json_annotation/json_annotation.dart';
+
+import '../helpers.dart';
 
 part 'account.g.dart';
 
@@ -79,30 +79,24 @@ class Account {
     required this.guestBloggers,
   });
 
-  static AccountMetadata _jsonMetadataFromJson(String json) {
-    return jsonDecode(json) as AccountMetadata;
-  }
-
-  static String _jsonMetadataToJson(AccountMetadata profile) {
-    return profile.toString();
-  }
-
   final int id;
   final String name;
   final Active owner;
   final Active active;
   final Active posting;
   final String memoKey;
-  @JsonKey(fromJson: _jsonMetadataFromJson, toJson: _jsonMetadataToJson)
-  final AccountMetadata jsonMetadata;
-  @JsonKey(fromJson: _jsonMetadataFromJson, toJson: _jsonMetadataToJson)
-  final AccountMetadata postingJsonMetadata;
+  final String jsonMetadata;
+  final String postingJsonMetadata;
   final String proxy;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime lastOwnerUpdate;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime lastAccountUpdate;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime created;
   final bool mined;
   final String recoveryAccount;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime lastAccountRecovery;
   final String resetAccount;
   final int commentCount;
@@ -116,11 +110,15 @@ class Account {
   final String savingsBalance;
   final String hbdBalance;
   final String hbdSeconds;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime hbdSecondsLastUpdate;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime hbdLastInterestPayment;
   final String savingsHbdBalance;
   final String savingsHbdSeconds;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime savingsHbdSecondsLastUpdate;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime savingsHbdLastInterestPayment;
   final int savingsWithdrawRequests;
   final String rewardHbdBalance;
@@ -132,6 +130,7 @@ class Account {
   final String receivedVestingShares;
   final String vestingWithdrawRate;
   final String postVotingPower;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime nextVestingWithdrawal;
   final int withdrawn;
   final int toWithdraw;
@@ -141,11 +140,15 @@ class Account {
   final int postingRewards;
   final List<int> proxiedVsfVotes;
   final int witnessesVotedFor;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime lastPost;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime lastRootPost;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime lastVoteTime;
   final int postBandwidth;
   final int pendingClaimedAccounts;
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime governanceVoteExpirationTs;
   final List<dynamic> delayedVotes;
   final int openRecurrentTransfers;
@@ -181,29 +184,6 @@ class Active {
   factory Active.fromJson(Map<String, dynamic> json) => _$ActiveFromJson(json);
 
   Map<String, dynamic> toJson() => _$ActiveToJson(this);
-}
-
-@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class AccountMetadata {
-  AccountMetadata(
-      {required this.profileImage,
-      required this.about,
-      required this.location,
-      required this.name,
-      this.version,
-      this.coverImage});
-
-  final Uri profileImage;
-  final String about;
-  final String location;
-  final String name;
-  final num? version;
-  final Uri? coverImage;
-
-  factory AccountMetadata.fromJson(Map<String, dynamic> json) =>
-      _$AccountMetadataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AccountMetadataToJson(this);
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)

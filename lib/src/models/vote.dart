@@ -29,4 +29,7 @@ class Vote {
   factory Vote.fromJson(Map<String, dynamic> json) => _$VoteFromJson(json);
 
   Map<String, dynamic> toJson() => _$VoteToJson(this);
+
+  @override
+  String toString() => 'Vote @$author/$permlink: $rshares';
 }

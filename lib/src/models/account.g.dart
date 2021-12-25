@@ -13,18 +13,16 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       active: Active.fromJson(json['active'] as Map<String, dynamic>),
       posting: Active.fromJson(json['posting'] as Map<String, dynamic>),
       memoKey: json['memo_key'] as String,
-      jsonMetadata:
-          Account._jsonMetadataFromJson(json['json_metadata'] as String),
-      postingJsonMetadata: Account._jsonMetadataFromJson(
-          json['posting_json_metadata'] as String),
+      jsonMetadata: json['json_metadata'] as String,
+      postingJsonMetadata: json['posting_json_metadata'] as String,
       proxy: json['proxy'] as String,
-      lastOwnerUpdate: DateTime.parse(json['last_owner_update'] as String),
-      lastAccountUpdate: DateTime.parse(json['last_account_update'] as String),
-      created: DateTime.parse(json['created'] as String),
+      lastOwnerUpdate: forceUtcDate(json['last_owner_update'] as String),
+      lastAccountUpdate: forceUtcDate(json['last_account_update'] as String),
+      created: forceUtcDate(json['created'] as String),
       mined: json['mined'] as bool,
       recoveryAccount: json['recovery_account'] as String,
       lastAccountRecovery:
-          DateTime.parse(json['last_account_recovery'] as String),
+          forceUtcDate(json['last_account_recovery'] as String),
       resetAccount: json['reset_account'] as String,
       commentCount: json['comment_count'] as int,
       lifetimeVoteCount: json['lifetime_vote_count'] as int,
@@ -40,15 +38,15 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       hbdBalance: json['hbd_balance'] as String,
       hbdSeconds: json['hbd_seconds'] as String,
       hbdSecondsLastUpdate:
-          DateTime.parse(json['hbd_seconds_last_update'] as String),
+          forceUtcDate(json['hbd_seconds_last_update'] as String),
       hbdLastInterestPayment:
-          DateTime.parse(json['hbd_last_interest_payment'] as String),
+          forceUtcDate(json['hbd_last_interest_payment'] as String),
       savingsHbdBalance: json['savings_hbd_balance'] as String,
       savingsHbdSeconds: json['savings_hbd_seconds'] as String,
       savingsHbdSecondsLastUpdate:
-          DateTime.parse(json['savings_hbd_seconds_last_update'] as String),
+          forceUtcDate(json['savings_hbd_seconds_last_update'] as String),
       savingsHbdLastInterestPayment:
-          DateTime.parse(json['savings_hbd_last_interest_payment'] as String),
+          forceUtcDate(json['savings_hbd_last_interest_payment'] as String),
       savingsWithdrawRequests: json['savings_withdraw_requests'] as int,
       rewardHbdBalance: json['reward_hbd_balance'] as String,
       rewardHiveBalance: json['reward_hive_balance'] as String,
@@ -60,7 +58,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       vestingWithdrawRate: json['vesting_withdraw_rate'] as String,
       postVotingPower: json['post_voting_power'] as String,
       nextVestingWithdrawal:
-          DateTime.parse(json['next_vesting_withdrawal'] as String),
+          forceUtcDate(json['next_vesting_withdrawal'] as String),
       withdrawn: json['withdrawn'] as int,
       toWithdraw: json['to_withdraw'] as int,
       withdrawRoutes: json['withdraw_routes'] as int,
@@ -71,13 +69,13 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
           .map((e) => e as int)
           .toList(),
       witnessesVotedFor: json['witnesses_voted_for'] as int,
-      lastPost: DateTime.parse(json['last_post'] as String),
-      lastRootPost: DateTime.parse(json['last_root_post'] as String),
-      lastVoteTime: DateTime.parse(json['last_vote_time'] as String),
+      lastPost: forceUtcDate(json['last_post'] as String),
+      lastRootPost: forceUtcDate(json['last_root_post'] as String),
+      lastVoteTime: forceUtcDate(json['last_vote_time'] as String),
       postBandwidth: json['post_bandwidth'] as int,
       pendingClaimedAccounts: json['pending_claimed_accounts'] as int,
       governanceVoteExpirationTs:
-          DateTime.parse(json['governance_vote_expiration_ts'] as String),
+          forceUtcDate(json['governance_vote_expiration_ts'] as String),
       delayedVotes: json['delayed_votes'] as List<dynamic>,
       openRecurrentTransfers: json['open_recurrent_transfers'] as int,
       vestingBalance: json['vesting_balance'] as String,
@@ -101,16 +99,15 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'active': instance.active.toJson(),
       'posting': instance.posting.toJson(),
       'memo_key': instance.memoKey,
-      'json_metadata': Account._jsonMetadataToJson(instance.jsonMetadata),
-      'posting_json_metadata':
-          Account._jsonMetadataToJson(instance.postingJsonMetadata),
+      'json_metadata': instance.jsonMetadata,
+      'posting_json_metadata': instance.postingJsonMetadata,
       'proxy': instance.proxy,
-      'last_owner_update': instance.lastOwnerUpdate.toIso8601String(),
-      'last_account_update': instance.lastAccountUpdate.toIso8601String(),
-      'created': instance.created.toIso8601String(),
+      'last_owner_update': stripUtcZ(instance.lastOwnerUpdate),
+      'last_account_update': stripUtcZ(instance.lastAccountUpdate),
+      'created': stripUtcZ(instance.created),
       'mined': instance.mined,
       'recovery_account': instance.recoveryAccount,
-      'last_account_recovery': instance.lastAccountRecovery.toIso8601String(),
+      'last_account_recovery': stripUtcZ(instance.lastAccountRecovery),
       'reset_account': instance.resetAccount,
       'comment_count': instance.commentCount,
       'lifetime_vote_count': instance.lifetimeVoteCount,
@@ -123,16 +120,14 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'savings_balance': instance.savingsBalance,
       'hbd_balance': instance.hbdBalance,
       'hbd_seconds': instance.hbdSeconds,
-      'hbd_seconds_last_update':
-          instance.hbdSecondsLastUpdate.toIso8601String(),
-      'hbd_last_interest_payment':
-          instance.hbdLastInterestPayment.toIso8601String(),
+      'hbd_seconds_last_update': stripUtcZ(instance.hbdSecondsLastUpdate),
+      'hbd_last_interest_payment': stripUtcZ(instance.hbdLastInterestPayment),
       'savings_hbd_balance': instance.savingsHbdBalance,
       'savings_hbd_seconds': instance.savingsHbdSeconds,
       'savings_hbd_seconds_last_update':
-          instance.savingsHbdSecondsLastUpdate.toIso8601String(),
+          stripUtcZ(instance.savingsHbdSecondsLastUpdate),
       'savings_hbd_last_interest_payment':
-          instance.savingsHbdLastInterestPayment.toIso8601String(),
+          stripUtcZ(instance.savingsHbdLastInterestPayment),
       'savings_withdraw_requests': instance.savingsWithdrawRequests,
       'reward_hbd_balance': instance.rewardHbdBalance,
       'reward_hive_balance': instance.rewardHiveBalance,
@@ -143,8 +138,7 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'received_vesting_shares': instance.receivedVestingShares,
       'vesting_withdraw_rate': instance.vestingWithdrawRate,
       'post_voting_power': instance.postVotingPower,
-      'next_vesting_withdrawal':
-          instance.nextVestingWithdrawal.toIso8601String(),
+      'next_vesting_withdrawal': stripUtcZ(instance.nextVestingWithdrawal),
       'withdrawn': instance.withdrawn,
       'to_withdraw': instance.toWithdraw,
       'withdraw_routes': instance.withdrawRoutes,
@@ -153,13 +147,13 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'posting_rewards': instance.postingRewards,
       'proxied_vsf_votes': instance.proxiedVsfVotes,
       'witnesses_voted_for': instance.witnessesVotedFor,
-      'last_post': instance.lastPost.toIso8601String(),
-      'last_root_post': instance.lastRootPost.toIso8601String(),
-      'last_vote_time': instance.lastVoteTime.toIso8601String(),
+      'last_post': stripUtcZ(instance.lastPost),
+      'last_root_post': stripUtcZ(instance.lastRootPost),
+      'last_vote_time': stripUtcZ(instance.lastVoteTime),
       'post_bandwidth': instance.postBandwidth,
       'pending_claimed_accounts': instance.pendingClaimedAccounts,
       'governance_vote_expiration_ts':
-          instance.governanceVoteExpirationTs.toIso8601String(),
+          stripUtcZ(instance.governanceVoteExpirationTs),
       'delayed_votes': instance.delayedVotes,
       'open_recurrent_transfers': instance.openRecurrentTransfers,
       'vesting_balance': instance.vestingBalance,
@@ -188,28 +182,6 @@ Map<String, dynamic> _$ActiveToJson(Active instance) => <String, dynamic>{
       'weight_threshold': instance.weightThreshold,
       'account_auths': instance.accountAuths,
       'key_auths': instance.keyAuths,
-    };
-
-AccountMetadata _$AccountMetadataFromJson(Map<String, dynamic> json) =>
-    AccountMetadata(
-      profileImage: Uri.parse(json['profile_image'] as String),
-      about: json['about'] as String,
-      location: json['location'] as String,
-      name: json['name'] as String,
-      version: json['version'] as num?,
-      coverImage: json['cover_image'] == null
-          ? null
-          : Uri.parse(json['cover_image'] as String),
-    );
-
-Map<String, dynamic> _$AccountMetadataToJson(AccountMetadata instance) =>
-    <String, dynamic>{
-      'profile_image': instance.profileImage.toString(),
-      'about': instance.about,
-      'location': instance.location,
-      'name': instance.name,
-      'version': instance.version,
-      'cover_image': instance.coverImage?.toString(),
     };
 
 Manabar _$ManabarFromJson(Map<String, dynamic> json) => Manabar(

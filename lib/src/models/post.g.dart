@@ -15,13 +15,13 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       body: json['body'] as String,
       jsonMetadata:
           JsonMetadata.fromJson(json['json_metadata'] as Map<String, dynamic>),
-      created: Post._toUTC(json['created'] as String),
-      updated: Post._toUTC(json['updated'] as String),
+      created: forceUtcDate(json['created'] as String),
+      updated: forceUtcDate(json['updated'] as String),
       depth: json['depth'] as int,
       children: json['children'] as int,
       netRshares: json['net_rshares'] as int,
       isPaidout: json['is_paidout'] as bool,
-      payoutAt: Post._toUTC(json['payout_at'] as String),
+      payoutAt: forceUtcDate(json['payout_at'] as String),
       payout: (json['payout'] as num).toDouble(),
       pendingPayoutValue: json['pending_payout_value'] as String,
       authorPayoutValue: json['author_payout_value'] as String,
@@ -47,10 +47,10 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       blacklists: (json['blacklists'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      community: json['community'] as String,
-      communityTitle: json['community_title'] as String,
-      authorRole: json['author_role'] as String,
-      authorTitle: json['author_title'] as String,
+      community: json['community'] as String?,
+      communityTitle: json['community_title'] as String?,
+      authorRole: json['author_role'] as String?,
+      authorTitle: json['author_title'] as String?,
     );
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
@@ -61,13 +61,13 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'title': instance.title,
       'body': instance.body,
       'json_metadata': instance.jsonMetadata.toJson(),
-      'created': instance.created.toIso8601String(),
-      'updated': instance.updated.toIso8601String(),
+      'created': stripUtcZ(instance.created),
+      'updated': stripUtcZ(instance.updated),
       'depth': instance.depth,
       'children': instance.children,
       'net_rshares': instance.netRshares,
       'is_paidout': instance.isPaidout,
-      'payout_at': instance.payoutAt.toIso8601String(),
+      'payout_at': stripUtcZ(instance.payoutAt),
       'payout': instance.payout,
       'pending_payout_value': instance.pendingPayoutValue,
       'author_payout_value': instance.authorPayoutValue,
