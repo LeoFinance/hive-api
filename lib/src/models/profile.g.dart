@@ -14,7 +14,7 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) => Profile(
       postCount: json['post_count'] as int,
       reputation: (json['reputation'] as num).toDouble(),
       blacklists: json['blacklists'] as List<dynamic>,
-      stats: Stats.fromJson(json['stats'] as Map<String, dynamic>),
+      stats: ProfileStats.fromJson(json['stats'] as Map<String, dynamic>),
       metadata:
           ProfileMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
     );
@@ -66,4 +66,17 @@ Map<String, dynamic> _$ProfileMetadataProfileToJson(
       'profile_image': instance.profileImage,
       'blacklist_description': instance.blacklistDescription,
       'muted_list_description': instance.mutedListDescription,
+    };
+
+ProfileStats _$ProfileStatsFromJson(Map<String, dynamic> json) => ProfileStats(
+      rank: json['rank'] as int,
+      following: json['following'] as int,
+      followers: json['followers'] as int,
+    );
+
+Map<String, dynamic> _$ProfileStatsToJson(ProfileStats instance) =>
+    <String, dynamic>{
+      'rank': instance.rank,
+      'following': instance.following,
+      'followers': instance.followers,
     };

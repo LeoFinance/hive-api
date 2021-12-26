@@ -14,10 +14,10 @@ Future<Post> samplePost() async => File('test/samples/post.json')
     .then(jsonDecode)
     .then((json) => Post.fromJson(json));
 
-Future<Stats> sampleStats() async => File('test/samples/post.json')
+Future<ProfileStats> sampleStats() async => File('test/samples/post.json')
     .readAsString()
     .then(jsonDecode)
-    .then((json) => Stats.fromJson(json["stats"]));
+    .then((json) => ProfileStats.fromJson(json["stats"]));
 
 Future<Discussion> sampleDiscussion() async =>
     File('test/samples/discussion.json')

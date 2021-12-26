@@ -25,7 +25,7 @@ class Profile {
   final int postCount;
   final double reputation;
   final List<dynamic> blacklists;
-  final Stats stats;
+  final ProfileStats stats;
   final ProfileMetadata metadata;
 
   factory Profile.fromJson(Map<String, dynamic> json) =>
@@ -74,4 +74,22 @@ class ProfileMetadataProfile {
       _$ProfileMetadataProfileFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileMetadataProfileToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+class ProfileStats {
+  ProfileStats({
+    required this.rank,
+    required this.following,
+    required this.followers,
+  });
+
+  final int rank;
+  final int following;
+  final int followers;
+
+  factory ProfileStats.fromJson(Map<String, dynamic> json) =>
+      _$ProfileStatsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProfileStatsToJson(this);
 }

@@ -70,7 +70,7 @@ class Post extends Equatable {
   final List<String> replies;
   final int? bodyLength;
   final double? authorReputation;
-  final Stats stats;
+  final PostStats stats;
   final String? parentAuthor;
   final String? parentPermlink;
   final String url;
@@ -127,4 +127,25 @@ class Post extends Equatable {
 
   @override
   String toString() => 'hive_api.Post @$author/$permlink';
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class PostStats {
+  final bool hide;
+  final bool gray;
+  final num totalVotes;
+  final num flagWeight;
+  final bool? isPinned;
+
+  PostStats(
+      {required this.hide,
+      required this.gray,
+      required this.totalVotes,
+      required this.flagWeight,
+      this.isPinned});
+
+  factory PostStats.fromJson(Map<String, dynamic> json) =>
+      _$PostStatsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PostStatsToJson(this);
 }

@@ -31,7 +31,7 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
           (json['replies'] as List<dynamic>).map((e) => e as String).toList(),
       bodyLength: json['body_length'] as int?,
       authorReputation: (json['author_reputation'] as num?)?.toDouble(),
-      stats: Stats.fromJson(json['stats'] as Map<String, dynamic>),
+      stats: PostStats.fromJson(json['stats'] as Map<String, dynamic>),
       parentAuthor: json['parent_author'] as String?,
       parentPermlink: json['parent_permlink'] as String?,
       url: json['url'] as String,
@@ -90,4 +90,20 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'community_title': instance.communityTitle,
       'author_role': instance.authorRole,
       'author_title': instance.authorTitle,
+    };
+
+PostStats _$PostStatsFromJson(Map<String, dynamic> json) => PostStats(
+      hide: json['hide'] as bool,
+      gray: json['gray'] as bool,
+      totalVotes: json['total_votes'] as num,
+      flagWeight: json['flag_weight'] as num,
+      isPinned: json['is_pinned'] as bool?,
+    );
+
+Map<String, dynamic> _$PostStatsToJson(PostStats instance) => <String, dynamic>{
+      'hide': instance.hide,
+      'gray': instance.gray,
+      'total_votes': instance.totalVotes,
+      'flag_weight': instance.flagWeight,
+      'is_pinned': instance.isPinned,
     };
