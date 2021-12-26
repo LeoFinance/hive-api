@@ -37,10 +37,10 @@ class Profile {
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class ProfileMetadata {
   ProfileMetadata({
-    required this.profile,
+    this.profile,
   });
 
-  final ProfileMetadataProfile profile;
+  final ProfileMetadataProfile? profile;
 
   factory ProfileMetadata.fromJson(Map<String, dynamic> json) =>
       _$ProfileMetadataFromJson(json);
@@ -51,24 +51,24 @@ class ProfileMetadata {
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class ProfileMetadataProfile {
   ProfileMetadataProfile({
-    required this.name,
-    required this.about,
-    required this.website,
-    required this.location,
-    required this.coverImage,
-    required this.profileImage,
-    required this.blacklistDescription,
-    required this.mutedListDescription,
+    this.name,
+    this.about,
+    this.website,
+    this.location,
+    this.coverImage,
+    this.profileImage,
+    this.blacklistDescription,
+    this.mutedListDescription,
   });
 
-  final String name;
-  final String about;
-  final String website;
-  final String location;
-  final String coverImage;
-  final String profileImage;
-  final String blacklistDescription;
-  final String mutedListDescription;
+  final String? name;
+  final String? about;
+  final String? website;
+  final String? location;
+  final String? coverImage;
+  final String? profileImage;
+  final String? blacklistDescription;
+  final String? mutedListDescription;
 
   factory ProfileMetadataProfile.fromJson(Map<String, dynamic> json) =>
       _$ProfileMetadataProfileFromJson(json);

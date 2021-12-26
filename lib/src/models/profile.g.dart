@@ -33,26 +33,28 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
 
 ProfileMetadata _$ProfileMetadataFromJson(Map<String, dynamic> json) =>
     ProfileMetadata(
-      profile: ProfileMetadataProfile.fromJson(
-          json['profile'] as Map<String, dynamic>),
+      profile: json['profile'] == null
+          ? null
+          : ProfileMetadataProfile.fromJson(
+              json['profile'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ProfileMetadataToJson(ProfileMetadata instance) =>
     <String, dynamic>{
-      'profile': instance.profile.toJson(),
+      'profile': instance.profile?.toJson(),
     };
 
 ProfileMetadataProfile _$ProfileMetadataProfileFromJson(
         Map<String, dynamic> json) =>
     ProfileMetadataProfile(
-      name: json['name'] as String,
-      about: json['about'] as String,
-      website: json['website'] as String,
-      location: json['location'] as String,
-      coverImage: json['cover_image'] as String,
-      profileImage: json['profile_image'] as String,
-      blacklistDescription: json['blacklist_description'] as String,
-      mutedListDescription: json['muted_list_description'] as String,
+      name: json['name'] as String?,
+      about: json['about'] as String?,
+      website: json['website'] as String?,
+      location: json['location'] as String?,
+      coverImage: json['cover_image'] as String?,
+      profileImage: json['profile_image'] as String?,
+      blacklistDescription: json['blacklist_description'] as String?,
+      mutedListDescription: json['muted_list_description'] as String?,
     );
 
 Map<String, dynamic> _$ProfileMetadataProfileToJson(
