@@ -32,13 +32,14 @@ class HiveBridgeApiClient {
     } catch (e, s) {
       print('Failed to parse @$author/$permlink: $e');
       print(s);
-      print('Failed data: $bodyJson');
+      print('Failed data: ${jsonEncode(bodyJson)}');
       throw e;
     }
   }
 
   Future<Map<String, dynamic>> _fetchPostData(
       {required String method, dynamic params}) async {
+    print('hive_api.fetch > $method');
     final response = await _httpClient.post(_uri,
         body: _buildBody(method: method, params: params));
 
@@ -82,7 +83,7 @@ class HiveBridgeApiClient {
     } catch (e, s) {
       print('Failed to parse @$author/$permlink: $e');
       print(s);
-      print('Failed data: $bodyJson');
+      print('Failed data: ${jsonEncode(bodyJson)}');
       throw e;
     }
   }
@@ -109,7 +110,7 @@ class HiveBridgeApiClient {
   //   } catch (e, s) {
   //     print('Failed to parse $account: $e');
   //     print(s);
-  //     print('Failed data: $bodyJson');
+  //     print('Failed data: ${jsonEncode(bodyJson)}');
   //     throw e;
   //   }
   // }
@@ -123,7 +124,7 @@ class HiveBridgeApiClient {
     } catch (e, s) {
       print('Failed to parse $account: $e');
       print(s);
-      print('Failed data: $bodyJson');
+      print('Failed data: ${jsonEncode(bodyJson)}');
       throw e;
     }
   }
@@ -140,7 +141,7 @@ class HiveBridgeApiClient {
     } catch (e, s) {
       print('Failed to parse $account: $e');
       print(s);
-      print('Failed data: $bodyJson');
+      print('Failed data: ${jsonEncode(bodyJson)}');
       throw e;
     }
   }
@@ -154,7 +155,7 @@ class HiveBridgeApiClient {
     } catch (e, s) {
       print('Failed to parse: $e');
       print(s);
-      print('Failed data: $bodyJson');
+      print('Failed data: ${jsonEncode(bodyJson)}');
       throw e;
     }
   }
@@ -163,15 +164,13 @@ class HiveBridgeApiClient {
     final bodyJson = await _fetchPostData(
         method: 'condenser_api.get_accounts', params: [usernames]);
 
-    print('getAccounts $bodyJson');
-
     try {
       final list = bodyJson['result'] as List;
       return list.map((d) => Account.fromJson(d)).toList();
     } catch (e, s) {
       print('Failed to parse: $e');
       print(s);
-      print('Failed data: $bodyJson');
+      print('Failed data: ${jsonEncode(bodyJson)}');
       throw e;
     }
   }
@@ -189,14 +188,14 @@ class HiveBridgeApiClient {
     final bodyJson = await _fetchPostData(
         method: 'reputation_api.get_account_reputations', params: params);
 
-    print('getAccountReputations $bodyJson');
+    print('getAccountReputations ${jsonEncode(bodyJson)}');
 
     try {
       return AccountReputations.fromJson(bodyJson['result']);
     } catch (e, s) {
       print('Failed to parse: $e');
       print(s);
-      print('Failed data: $bodyJson');
+      print('Failed data: ${jsonEncode(bodyJson)}');
       throw e;
     }
   }
@@ -207,7 +206,7 @@ class HiveBridgeApiClient {
         method: 'condenser_api.get_account_history',
         params: [accountName, start, size]);
 
-    print('getAccountHistory $bodyJson');
+    print('getAccountHistory ${jsonEncode(bodyJson)}');
 
     try {
       final entries = bodyJson['result'] as List<dynamic>;
@@ -217,7 +216,7 @@ class HiveBridgeApiClient {
     } catch (e, s) {
       print('Failed to parse: $e');
       print(s);
-      print('Failed data: $bodyJson');
+      print('Failed data: ${jsonEncode(bodyJson)}');
       throw e;
     }
   }
@@ -240,7 +239,7 @@ class HiveBridgeApiClient {
     } catch (e, s) {
       print('Failed to parse: $e');
       print(s);
-      print('Failed data: $bodyJson');
+      print('Failed data: ${jsonEncode(bodyJson)}');
       throw e;
     }
   }
@@ -256,7 +255,7 @@ class HiveBridgeApiClient {
     } catch (e, s) {
       print('Failed to parse: $e');
       print(s);
-      print('Failed data: $bodyJson');
+      print('Failed data: ${jsonEncode(bodyJson)}');
       throw e;
     }
   }
@@ -277,7 +276,7 @@ class HiveBridgeApiClient {
     } catch (e, s) {
       print('Failed to parse: $e');
       print(s);
-      print('Failed data: $bodyJson');
+      print('Failed data: ${jsonEncode(bodyJson)}');
       throw e;
     }
   }
@@ -292,7 +291,7 @@ class HiveBridgeApiClient {
     } catch (e, s) {
       print('Failed to parse: $e');
       print(s);
-      print('Failed data: $bodyJson');
+      print('Failed data: ${jsonEncode(bodyJson)}');
       throw e;
     }
   }

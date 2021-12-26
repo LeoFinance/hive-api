@@ -132,13 +132,15 @@ class Account {
   final String postVotingPower;
   @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime nextVestingWithdrawal;
+  @JsonKey(fromJson: forceInt)
   final int withdrawn;
+  @JsonKey(fromJson: forceInt)
   final int toWithdraw;
   final int withdrawRoutes;
   final int pendingTransfers;
   final int curationRewards;
   final int postingRewards;
-  final List<int> proxiedVsfVotes;
+  final List<dynamic> proxiedVsfVotes;
   final int witnessesVotedFor;
   @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime lastPost;

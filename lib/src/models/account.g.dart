@@ -59,15 +59,13 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       postVotingPower: json['post_voting_power'] as String,
       nextVestingWithdrawal:
           forceUtcDate(json['next_vesting_withdrawal'] as String),
-      withdrawn: json['withdrawn'] as int,
-      toWithdraw: json['to_withdraw'] as int,
+      withdrawn: forceInt(json['withdrawn']),
+      toWithdraw: forceInt(json['to_withdraw']),
       withdrawRoutes: json['withdraw_routes'] as int,
       pendingTransfers: json['pending_transfers'] as int,
       curationRewards: json['curation_rewards'] as int,
       postingRewards: json['posting_rewards'] as int,
-      proxiedVsfVotes: (json['proxied_vsf_votes'] as List<dynamic>)
-          .map((e) => e as int)
-          .toList(),
+      proxiedVsfVotes: json['proxied_vsf_votes'] as List<dynamic>,
       witnessesVotedFor: json['witnesses_voted_for'] as int,
       lastPost: forceUtcDate(json['last_post'] as String),
       lastRootPost: forceUtcDate(json['last_root_post'] as String),
