@@ -206,8 +206,6 @@ class HiveBridgeApiClient {
         method: 'condenser_api.get_account_history',
         params: [accountName, start, size]);
 
-    print('getAccountHistory ${jsonEncode(bodyJson)}');
-
     try {
       final entries = bodyJson['result'] as List<dynamic>;
       return entries
