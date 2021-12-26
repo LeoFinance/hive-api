@@ -8,6 +8,7 @@ export 'following.dart';
 export 'follow_count.dart';
 export 'account_notification.dart';
 export 'post.dart';
+export 'profile.dart';
 export 'json_metadata.dart';
 export 'stats.dart';
 export 'unread_notifications.dart';

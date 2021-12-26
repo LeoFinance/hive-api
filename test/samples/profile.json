@@ -2,11 +2,15 @@
   "id": 90179,
   "name": "shawnlauzon",
   "created": "2016-09-11T16:56:45",
-  "active": "2021-11-17T17:50:18",
-  "post_count": 489,
-  "reputation": 57.91,
+  "active": "2021-12-26T01:37:42",
+  "post_count": 503,
+  "reputation": 57.98,
   "blacklists": [],
-  "stats": { "rank": 0, "following": 83, "followers": 120 },
+  "stats": {
+    "rank": 0,
+    "following": 87,
+    "followers": 121
+  },
   "metadata": {
     "profile": {
       "name": "Shawn Lauzon",

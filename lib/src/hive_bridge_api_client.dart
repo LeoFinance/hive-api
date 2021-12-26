@@ -101,19 +101,19 @@ class HiveBridgeApiClient {
     return jsonDecode(postResponse.body) as List<dynamic>;
   }
 
-  // Future<Profile> getProfile(String account) async {
-  //   final bodyJson = await _fetchPostData(
-  //       method: 'bridge.get_profile', params: {'account': account});
+  Future<Profile> getProfile(String account) async {
+    final bodyJson = await _fetchPostData(
+        method: 'bridge.get_profile', params: {'account': account});
 
-  //   try {
-  //     return Profile.fromJson(bodyJson['result']);
-  //   } catch (e, s) {
-  //     print('Failed to parse $account: $e');
-  //     print(s);
-  //     print('Failed data: ${jsonEncode(bodyJson)}');
-  //     throw e;
-  //   }
-  // }
+    try {
+      return Profile.fromJson(bodyJson['result']);
+    } catch (e, s) {
+      print('Failed to parse $account: $e');
+      print(s);
+      print('Failed data: ${jsonEncode(bodyJson)}');
+      throw e;
+    }
+  }
 
   Future<FollowCount> getFollowCount(String account) async {
     final bodyJson = await _fetchPostData(
