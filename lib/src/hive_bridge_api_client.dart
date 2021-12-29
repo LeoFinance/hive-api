@@ -39,7 +39,7 @@ class HiveBridgeApiClient {
 
   Future<Map<String, dynamic>> _fetchPostData(
       {required String method, dynamic params}) async {
-    print('hive_api.fetch > $method');
+    print('hive_api.fetch > $method {$params}');
     final response = await _httpClient.post(_uri,
         body: _buildBody(method: method, params: params));
 
