@@ -183,7 +183,7 @@ Map<String, dynamic> _$ActiveToJson(Active instance) => <String, dynamic>{
     };
 
 Manabar _$ManabarFromJson(Map<String, dynamic> json) => Manabar(
-      currentMana: json['current_mana'] as String,
+      currentMana: forceInt(json['current_mana']),
       lastUpdateTime: json['last_update_time'] as int,
     );
 

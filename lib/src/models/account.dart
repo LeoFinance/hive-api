@@ -195,7 +195,8 @@ class Manabar {
     required this.lastUpdateTime,
   });
 
-  final String currentMana;
+  @JsonKey(fromJson: forceInt)
+  final int currentMana;
   final int lastUpdateTime;
 
   factory Manabar.fromJson(Map<String, dynamic> json) =>
