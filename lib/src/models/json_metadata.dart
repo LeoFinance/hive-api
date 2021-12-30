@@ -12,7 +12,6 @@ class JsonMetadata extends Equatable {
   final String format;
   final String? canonicalUrl;
   final List<String>? tags;
-  final List<String>? links;
   final Video? video;
 
   // Might be a String or a list of Strings
@@ -24,7 +23,6 @@ class JsonMetadata extends Equatable {
       this.format = 'markdown',
       this.canonicalUrl,
       this.tags,
-      this.links,
       this.image,
       this.video});
 
@@ -34,7 +32,8 @@ class JsonMetadata extends Equatable {
   Map<String, dynamic> toJson() => _$JsonMetadataToJson(this);
 
   @override
-  List<Object?> get props => [app, format, tags, links, image];
+  List<Object?> get props =>
+      [app, type, format, canonicalUrl, tags, image, video];
 
   @override
   bool get stringify => true;

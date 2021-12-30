@@ -12,8 +12,6 @@ JsonMetadata _$JsonMetadataFromJson(Map<String, dynamic> json) => JsonMetadata(
       format: json['format'] as String? ?? 'markdown',
       canonicalUrl: json['canonical_url'] as String?,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      links:
-          (json['links'] as List<dynamic>?)?.map((e) => e as String).toList(),
       image: json['image'],
       video: json['video'] == null
           ? null
@@ -34,7 +32,6 @@ Map<String, dynamic> _$JsonMetadataToJson(JsonMetadata instance) {
   val['format'] = instance.format;
   writeNotNull('canonical_url', instance.canonicalUrl);
   writeNotNull('tags', instance.tags);
-  writeNotNull('links', instance.links);
   writeNotNull('video', instance.video?.toJson());
   writeNotNull('image', instance.image);
   return val;
