@@ -15,7 +15,6 @@ void main() {
           "app": jsonMetadata.app,
           "format": jsonMetadata.format,
           "tags": jsonMetadata.tags,
-          "links": jsonMetadata.links,
           "image": jsonMetadata.image
         };
 
