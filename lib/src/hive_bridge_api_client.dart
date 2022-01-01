@@ -2,11 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:hive_bridge_api/src/models/account_reputations.dart';
-import 'package:hive_bridge_api/src/models/follow_count.dart';
-import 'package:hive_bridge_api/src/models/unread_notifications.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
+
 import '../hive_bridge_api.dart';
 
 class HiveBridgeApiClient {
