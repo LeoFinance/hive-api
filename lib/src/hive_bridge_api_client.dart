@@ -8,7 +8,8 @@ import '../hive_bridge_api.dart';
 
 class HiveBridgeApiClient {
   // TODO Switch to different URLs
-  static const _baseUrl = 'api.hive.blog';
+  static const _baseUrl = 'api.deathwing.me';
+  // static const _baseUrl = 'api.hive.blog';
   static const MAX_NONCE = 1 << 32; // max value of Random.secure()
   final Uri _uri = Uri.https(_baseUrl, '/');
   final http.Client _httpClient;
