@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:http/http.dart' as http;
+import 'package:http/retry.dart';
 
 import '../hive_bridge_api.dart';
 
@@ -17,7 +18,7 @@ class HiveBridgeApiClient {
 
   /// {@macro lightning_api_client}
   HiveBridgeApiClient({http.Client? httpClient})
-      : _httpClient = httpClient ?? http.Client();
+      : _httpClient = httpClient ?? RetryClient(http.Client());
 
   Future<Post> getPost(
       {required String author, required String permlink}) async {
