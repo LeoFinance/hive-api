@@ -25,6 +25,8 @@ class AccountHistoryEntry {
   final int trxInBlock;
   final int opInTrx;
   final int virtualOp;
+
+  @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime timestamp;
 
   @JsonKey(fromJson: _arrayToOp, toJson: _opToArray)
