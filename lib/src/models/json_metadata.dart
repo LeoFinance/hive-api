@@ -10,6 +10,7 @@ class JsonMetadata extends Equatable {
   final String? app;
   final String? type;
   final String format;
+  final List<String>? links;
   final String? canonicalUrl;
   final List<String>? tags;
   final Video? video;
@@ -21,6 +22,7 @@ class JsonMetadata extends Equatable {
       {this.app,
       this.type,
       this.format = 'markdown',
+      this.links;
       this.canonicalUrl,
       this.tags,
       this.image,
