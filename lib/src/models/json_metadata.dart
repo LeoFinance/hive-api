@@ -22,7 +22,7 @@ class JsonMetadata extends Equatable {
       {this.app,
       this.type,
       this.format = 'markdown',
-      this.links;
+      this.links,
       this.canonicalUrl,
       this.tags,
       this.image,
