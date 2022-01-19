@@ -13,7 +13,7 @@ AccountHistoryEntry _$AccountHistoryEntryFromJson(Map<String, dynamic> json) =>
       trxInBlock: json['trx_in_block'] as int,
       opInTrx: json['op_in_trx'] as int,
       virtualOp: json['virtual_op'] as int,
-      timestamp: DateTime.parse(json['timestamp'] as String),
+      timestamp: forceUtcDate(json['timestamp'] as String),
       op: AccountHistoryEntry._arrayToOp(json['op'] as List),
     );
 
@@ -25,7 +25,7 @@ Map<String, dynamic> _$AccountHistoryEntryToJson(
       'trx_in_block': instance.trxInBlock,
       'op_in_trx': instance.opInTrx,
       'virtual_op': instance.virtualOp,
-      'timestamp': instance.timestamp.toIso8601String(),
+      'timestamp': stripUtcZ(instance.timestamp),
       'op': AccountHistoryEntry._opToArray(instance.op),
     };
 
