@@ -77,7 +77,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       delayedVotes: json['delayed_votes'] as List<dynamic>,
       openRecurrentTransfers: json['open_recurrent_transfers'] as int,
       vestingBalance: json['vesting_balance'] as String,
-      reputation: json['reputation'] as String,
+      reputation: forceInt(json['reputation']),
       transferHistory: json['transfer_history'] as List<dynamic>,
       marketHistory: json['market_history'] as List<dynamic>,
       postHistory: json['post_history'] as List<dynamic>,

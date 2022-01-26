@@ -155,7 +155,8 @@ class Account {
   final List<dynamic> delayedVotes;
   final int openRecurrentTransfers;
   final String vestingBalance;
-  final String reputation;
+  @JsonKey(fromJson: forceInt)
+  final int reputation;
   final List<dynamic> transferHistory;
   final List<dynamic> marketHistory;
   final List<dynamic> postHistory;

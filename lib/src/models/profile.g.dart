@@ -55,6 +55,9 @@ ProfileMetadataProfile _$ProfileMetadataProfileFromJson(
       profileImage: json['profile_image'] as String?,
       blacklistDescription: json['blacklist_description'] as String?,
       mutedListDescription: json['muted_list_description'] as String?,
+      dtubePub: json['dtube_pub'] as String?,
+      pinned: json['pinned'] as String?,
+      version: json['version'] as int?,
     );
 
 Map<String, dynamic> _$ProfileMetadataProfileToJson(
@@ -68,6 +71,9 @@ Map<String, dynamic> _$ProfileMetadataProfileToJson(
       'profile_image': instance.profileImage,
       'blacklist_description': instance.blacklistDescription,
       'muted_list_description': instance.mutedListDescription,
+      'dtube_pub': instance.dtubePub,
+      'pinned': instance.pinned,
+      'version': instance.version,
     };
 
 ProfileStats _$ProfileStatsFromJson(Map<String, dynamic> json) => ProfileStats(
