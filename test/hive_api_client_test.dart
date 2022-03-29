@@ -3,27 +3,27 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:hive_bridge_api/hive_bridge_api.dart';
+import 'package:hive_api/hive_api.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import 'hive_bridge_api_client_test.mocks.dart';
+import 'hive_api_client_test.mocks.dart';
 
 @GenerateMocks([http.Client, http.Response, Uri])
 void main() {
   group('BridgeApiClient', () {
     late MockClient httpClient;
-    late HiveBridgeApiClient bridgeApiClient;
+    late HiveApiClient bridgeApiClient;
 
     setUp(() {
       httpClient = MockClient();
-      bridgeApiClient = HiveBridgeApiClient(httpClient: httpClient);
+      bridgeApiClient = HiveApiClient(httpClient: httpClient);
     });
 
     group('constructor', () {
       test('does not require an httpClient', () {
-        expect(HiveBridgeApiClient(), isNotNull);
+        expect(HiveApiClient(), isNotNull);
       });
     });
 

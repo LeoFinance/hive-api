@@ -5,9 +5,9 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
 
-import '../hive_bridge_api.dart';
+import '../hive_api.dart';
 
-class HiveBridgeApiClient {
+class HiveApiClient {
   // TODO Switch to different URLs
   static const _baseUrl = 'api.deathwing.me';
   // static const _baseUrl = 'api.hive.blog';
@@ -17,7 +17,7 @@ class HiveBridgeApiClient {
   final Random random = Random.secure();
 
   /// {@macro lightning_api_client}
-  HiveBridgeApiClient({http.Client? httpClient})
+  HiveApiClient({http.Client? httpClient})
       : _httpClient = httpClient ?? RetryClient(http.Client());
 
   Future<Post> getPost(

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:hive_bridge_api/hive_bridge_api.dart';
+import 'package:hive_api/hive_api.dart';
 import 'package:test/test.dart';
 import 'samples/samples.dart';
 

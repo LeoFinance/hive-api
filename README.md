@@ -1,5 +1,5 @@
-![Tests](https://github.com/LeoFinance/hive_bridge_api/actions/workflows/dart.yml/badge.svg)
+![Tests](https://github.com/LeoFinance/hive_api/actions/workflows/dart.yml/badge.svg)
 
-# hive_bridge_api
+# hive_api
 
 A simple API for connecting to the Bridge interface of the Hive network.

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:hive_bridge_api/src/helpers.dart';
+import 'package:hive_api/src/helpers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'account_notification.g.dart';
