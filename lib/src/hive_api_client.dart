@@ -129,7 +129,7 @@ class HiveApiClient {
   }
 
   Future<List<Following>> getFollowing(String account,
-      {int? start, String? type, int? limit}) async {
+      {String? start, String? type, int? limit}) async {
     final bodyJson = await _fetchPostData(
         method: 'condenser_api.get_following',
         params: [account, start, type, limit]);
@@ -146,7 +146,7 @@ class HiveApiClient {
   }
 
   Future<List<Following>> getFollowers(String account,
-      {int? start, String? type, int? limit}) async {
+      {String? start, String? type, int? limit}) async {
     final bodyJson = await _fetchPostData(
         method: 'condenser_api.get_followers',
         params: [account, start, type, limit]);
