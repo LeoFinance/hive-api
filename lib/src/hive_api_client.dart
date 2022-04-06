@@ -129,9 +129,26 @@ class HiveApiClient {
   }
 
   Future<List<Following>> getFollowing(String account,
-      {int? start, required String type, int? limit}) async {
+      {int? start, String? type, int? limit}) async {
     final bodyJson = await _fetchPostData(
         method: 'condenser_api.get_following',
+        params: [account, start, type, limit]);
+
+    try {
+      final resultList = bodyJson['result'] as List;
+      return resultList.map((v) => Following.fromJson(v)).toList();
+    } catch (e, s) {
+      print('Failed to parse $account: $e');
+      print(s);
+      print('Failed data: ${jsonEncode(bodyJson)}');
+      throw e;
+    }
+  }
+
+  Future<List<Following>> getFollowers(String account,
+      {int? start, String? type, int? limit}) async {
+    final bodyJson = await _fetchPostData(
+        method: 'condenser_api.get_followers',
         params: [account, start, type, limit]);
 
     try {
