@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'profile.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class Profile {
+class Profile extends Equatable {
   Profile({
     required this.id,
     required this.name,
@@ -30,10 +31,26 @@ class Profile {
       _$ProfileFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileToJson(this);
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        created,
+        active,
+        postCount,
+        reputation,
+        blacklists,
+        stats,
+        metadata
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class ProfileMetadata {
+class ProfileMetadata extends Equatable {
   ProfileMetadata({
     this.profile,
   });
@@ -44,10 +61,16 @@ class ProfileMetadata {
       _$ProfileMetadataFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileMetadataToJson(this);
+
+  @override
+  List<Object?> get props => [profile];
+
+  @override
+  bool get stringify => true;
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class ProfileMetadataProfile {
+class ProfileMetadataProfile extends Equatable {
   const ProfileMetadataProfile(
       {this.name,
       this.about,
@@ -77,10 +100,28 @@ class ProfileMetadataProfile {
       _$ProfileMetadataProfileFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileMetadataProfileToJson(this);
+
+  @override
+  List<Object?> get props => [
+        name,
+        about,
+        website,
+        location,
+        coverImage,
+        profileImage,
+        blacklistDescription,
+        mutedListDescription,
+        dtubePub,
+        pinned,
+        version
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class ProfileStats {
+class ProfileStats extends Equatable {
   ProfileStats({
     required this.rank,
     required this.following,
@@ -95,4 +136,10 @@ class ProfileStats {
       _$ProfileStatsFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileStatsToJson(this);
+
+  @override
+  List<Object?> get props => [rank, following, followers];
+
+  @override
+  bool get stringify => true;
 }
