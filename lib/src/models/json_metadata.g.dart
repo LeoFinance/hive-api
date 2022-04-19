@@ -10,11 +10,10 @@ JsonMetadata _$JsonMetadataFromJson(Map<String, dynamic> json) => JsonMetadata(
       app: json['app'] as String?,
       type: json['type'] as String?,
       format: json['format'] as String? ?? 'markdown',
-      links:
-          (json['links'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      links: forceList(json['links']),
       canonicalUrl: json['canonical_url'] as String?,
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      image: json['image'],
+      tags: forceList(json['tags']),
+      image: forceList(json['image']),
       video: json['video'] == null
           ? null
           : Video.fromJson(json['video'] as Map<String, dynamic>),
