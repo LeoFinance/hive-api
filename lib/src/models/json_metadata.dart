@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive_api/src/helpers.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'models.dart';
 
@@ -10,13 +11,20 @@ class JsonMetadata extends Equatable {
   final String? app;
   final String? type;
   final String format;
+
+  @JsonKey(fromJson: forceList)
   final List<String>? links;
+
   final String? canonicalUrl;
+
+  @JsonKey(fromJson: forceList)
   final List<String>? tags;
+
   final Video? video;
 
   // Might be a String or a list of Strings
-  final dynamic image;
+  @JsonKey(fromJson: forceList)
+  final List<String>? image;
 
   JsonMetadata(
       {this.app,
@@ -35,7 +43,7 @@ class JsonMetadata extends Equatable {
 
   @override
   List<Object?> get props =>
-      [app, type, format, canonicalUrl, tags, image, video];
+      [app, type, format, links, canonicalUrl, tags, image, video];
 
   @override
   bool get stringify => true;
