@@ -7,8 +7,9 @@ String stripUtcZ(DateTime dateTime) =>
 // Used when the incoming data can be either a String or an int
 int forceInt(dynamic json) => json is int ? json : int.parse(json);
 
-// Used when the incoming data can be either a List<String> or an empty string
-List<String> forceList(dynamic json) => json is List<String> ? json : const [];
+// Used when the incoming data can be either a List or an empty string
+List<String> forceList(dynamic json) =>
+    json is List ? json.map((e) => e.toString()).toList() : const <String>[];
 
 double fromHive(String s) => _removeAndConvert(s, r' HIVE$');
 double fromHbd(String s) => _removeAndConvert(s, r' HBD$');
