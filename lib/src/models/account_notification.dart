@@ -28,6 +28,9 @@ class AccountNotification extends Equatable {
   @override
   List<Object> get props => [id, type, score, date, msg, url];
 
+  @override
+  bool get stringify => true;
+
   factory AccountNotification.fromJson(Map<String, dynamic> json) =>
       _$AccountNotificationFromJson(json);
 
