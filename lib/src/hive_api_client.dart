@@ -309,6 +309,10 @@ class HiveApiClient {
       throw e;
     }
   }
+
+  void close() {
+    _httpClient.close();
+  }
 }
 
 class InvalidParametersException implements Exception {
