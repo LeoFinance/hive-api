@@ -4,7 +4,7 @@ part 'database_global_properties.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class DatabaseGlobalProperties {
-  DatabaseGlobalProperties({
+  const DatabaseGlobalProperties({
     required this.id,
     required this.headBlockNumber,
     required this.headBlockId,
@@ -53,6 +53,9 @@ class DatabaseGlobalProperties {
     required this.maxOpenRecurrentTransfers,
   });
 
+  factory DatabaseGlobalProperties.fromJson(Map<String, dynamic> json) =>
+      _$DatabaseGlobalPropertiesFromJson(json);
+
   final int id;
   final int headBlockNumber;
   final String headBlockId;
@@ -100,26 +103,23 @@ class DatabaseGlobalProperties {
   final int minRecurrentTransfersRecurrence;
   final int maxOpenRecurrentTransfers;
 
-  factory DatabaseGlobalProperties.fromJson(Map<String, dynamic> json) =>
-      _$DatabaseGlobalPropertiesFromJson(json);
-
   Map<String, dynamic> toJson() => _$DatabaseGlobalPropertiesToJson(this);
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class CurrentHbdSupply {
-  CurrentHbdSupply({
+  const CurrentHbdSupply({
     required this.amount,
     required this.precision,
     required this.nai,
   });
 
+  factory CurrentHbdSupply.fromJson(Map<String, dynamic> json) =>
+      _$CurrentHbdSupplyFromJson(json);
+
   final String amount;
   final int precision;
   final String nai;
-
-  factory CurrentHbdSupply.fromJson(Map<String, dynamic> json) =>
-      _$CurrentHbdSupplyFromJson(json);
 
   Map<String, dynamic> toJson() => _$CurrentHbdSupplyToJson(this);
 }

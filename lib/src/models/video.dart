@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive_api/src/models/models.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'models.dart';
 
 part 'video.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Video extends Equatable {
-  Video({
+  const Video({
     this.info,
     this.content,
     this.files,
@@ -19,6 +19,8 @@ class Video extends Equatable {
     this.oc,
   });
 
+  factory Video.fromJson(Map<String, dynamic> json) => _$VideoFromJson(json);
+
   final VideoInfo? info;
   final VideoContent? content;
   final Map<String, String>? files;
@@ -29,8 +31,6 @@ class Video extends Equatable {
   final int? hide;
   final int? nsfw;
   final int? oc;
-
-  factory Video.fromJson(Map<String, dynamic> json) => _$VideoFromJson(json);
 
   Map<String, dynamic> toJson() => _$VideoToJson(this);
 

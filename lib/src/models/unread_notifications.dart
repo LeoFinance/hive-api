@@ -9,11 +9,11 @@ class UnreadNotifications {
     required this.unread,
   });
 
-  final DateTime lastread;
-  final int unread;
-
   factory UnreadNotifications.fromJson(Map<String, dynamic> json) =>
       _$UnreadNotificationsFromJson(json);
+
+  final DateTime lastread;
+  final int unread;
 
   Map<String, dynamic> toJson() => _$UnreadNotificationsToJson(this);
 }

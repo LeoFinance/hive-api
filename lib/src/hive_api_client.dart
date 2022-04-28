@@ -2,45 +2,42 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:hive_api/src/models/models.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/retry.dart';
-
-import '../hive_api.dart';
 
 class HiveApiClient {
-  // TODO Switch to different URLs
+  /// {@macro hive_api_client}
+  HiveApiClient({this.httpClient});
+
+  // TODO(shawnlauzon): Switch to different URLs, https://github.com/LeoFinance/hive-api/issues/1
   static const _baseUrl = 'api.deathwing.me';
   // static const _baseUrl = 'api.hive.blog';
-  static const MAX_NONCE = 1 << 32; // max value of Random.secure()
+
+  static const maxNonce = 1 << 32; // max value of Random.secure()
+
   final Uri _uri = Uri.https(_baseUrl, '/');
-  final http.Client _httpClient;
+  final http.Client? httpClient;
   final Random random = Random.secure();
 
-  /// {@macro lightning_api_client}
-  HiveApiClient({http.Client? httpClient})
-      : _httpClient = httpClient ?? RetryClient(http.Client());
-
-  Future<Post> getPost(
-      {required String author, required String permlink}) async {
+  Future<Post> getPost({
+    required String author,
+    required String permlink,
+  }) async {
     final bodyJson = await _fetchPostData(
-        method: 'bridge.get_post',
-        params: {'author': author, 'permlink': permlink});
+      method: 'bridge.get_post',
+      params: {'author': author, 'permlink': permlink},
+    );
 
-    try {
-      return Post.fromJson(bodyJson['result']);
-    } catch (e, s) {
-      print('Failed to parse @$author/$permlink: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    return Post.fromJson(bodyJson['result'] as Map<String, dynamic>);
   }
 
-  Future<Map<String, dynamic>> _fetchPostData(
-      {required String method, dynamic params}) async {
-    print('hive_api.fetch > $method $params');
-    final response = await _httpClient.post(_uri,
-        body: _buildBody(method: method, params: params));
+  Future<Map<String, dynamic>> _fetchPostData({
+    required String method,
+    dynamic params,
+  }) async {
+    // print('hive_api.fetch > $method $params');
+    final response =
+        await _httpPost(_uri, body: _buildBody(method: method, params: params));
 
     if (response.statusCode != 200) {
       throw ContentRequestFailure(statusCode: response.statusCode);
@@ -49,21 +46,22 @@ class HiveApiClient {
     final bodyJson = jsonDecode(response.body) as Map<String, dynamic>;
 
     if (bodyJson['error'] != null) {
-      if (bodyJson['error']['code'] == -32602) {
+      if ((bodyJson['error'] as Map<String, dynamic>)['code'] == -32602) {
         throw NotFoundFailure(
-            'Data not found for method $method with params $params');
+          'Data not found for method $method with params $params',
+        );
       } else {
-        throw JsonRpcError(bodyJson['error']);
+        throw JsonRpcError(bodyJson['error'] as Map<String, dynamic>);
       }
     }
     return bodyJson;
   }
 
   String _buildBody({required String method, dynamic params}) {
-    var body = {
+    final body = <String, dynamic>{
       'jsonrpc': '2.0',
       'method': method,
-      'id': random.nextInt(MAX_NONCE)
+      'id': random.nextInt(maxNonce)
     };
     if (params != null) {
       body['params'] = params;
@@ -71,27 +69,24 @@ class HiveApiClient {
     return jsonEncode(body);
   }
 
-  Future<Discussion> getDiscussion(
-      {required String author, required String permlink}) async {
+  Future<Discussion> getDiscussion({
+    required String author,
+    required String permlink,
+  }) async {
     final bodyJson = await _fetchPostData(
-        method: 'bridge.get_discussion',
-        params: {'author': author, 'permlink': permlink});
+      method: 'bridge.get_discussion',
+      params: {'author': author, 'permlink': permlink},
+    );
 
-    try {
-      return Discussion.fromJson(bodyJson['result']);
-    } catch (e, s) {
-      print('Failed to parse @$author/$permlink: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    return Discussion.fromJson(bodyJson['result'] as Map<String, dynamic>);
   }
 
-  Future<List<dynamic>> getFeedJson(
-      {required String tag, required String sort}) async {
+  Future<List<dynamic>> getFeedJson({
+    required String tag,
+    required String sort,
+  }) async {
     final uri = Uri.https(_baseUrl, '/lightning/feeds/$tag/$sort');
-    print('GET $uri');
-    final postResponse = await _httpClient.get(uri);
+    final postResponse = await _httpGet(uri);
 
     if (postResponse.statusCode != 200) {
       throw ContentRequestFailure(statusCode: postResponse.statusCode);
@@ -102,223 +97,194 @@ class HiveApiClient {
 
   Future<Profile> getProfile(String account) async {
     final bodyJson = await _fetchPostData(
-        method: 'bridge.get_profile', params: {'account': account});
+      method: 'bridge.get_profile',
+      params: {'account': account},
+    );
 
-    try {
-      return Profile.fromJson(bodyJson['result']);
-    } catch (e, s) {
-      print('Failed to parse $account: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    return Profile.fromJson(bodyJson['result'] as Map<String, dynamic>);
   }
 
   Future<FollowCount> getFollowCount(String account) async {
     final bodyJson = await _fetchPostData(
-        method: 'condenser_api.get_follow_count', params: [account]);
+      method: 'condenser_api.get_follow_count',
+      params: [account],
+    );
 
-    try {
-      return FollowCount.fromJson(bodyJson['result']);
-    } catch (e, s) {
-      print('Failed to parse $account: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    return FollowCount.fromJson(bodyJson['result'] as Map<String, dynamic>);
   }
 
-  Future<List<Following>> getFollowing(String account,
-      {String? start, String? type, int? limit}) async {
+  Future<List<Following>> getFollowing(
+    String account, {
+    String? start,
+    String? type,
+    int? limit,
+  }) async {
     final bodyJson = await _fetchPostData(
-        method: 'condenser_api.get_following',
-        params: [account, start, type, limit]);
+      method: 'condenser_api.get_following',
+      params: [account, start, type, limit],
+    );
 
-    try {
-      final resultList = bodyJson['result'] as List;
-      return resultList.map((v) => Following.fromJson(v)).toList();
-    } catch (e, s) {
-      print('Failed to parse $account: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    final resultList = bodyJson['result'] as List<Map<String, dynamic>>;
+    return resultList.map(Following.fromJson).toList();
   }
 
-  Future<List<Following>> getFollowers(String account,
-      {String? start, String? type, int? limit}) async {
+  Future<List<Following>> getFollowers(
+    String account, {
+    String? start,
+    String? type,
+    int? limit,
+  }) async {
     final bodyJson = await _fetchPostData(
-        method: 'condenser_api.get_followers',
-        params: [account, start, type, limit]);
+      method: 'condenser_api.get_followers',
+      params: [account, start, type, limit],
+    );
 
-    try {
-      final resultList = bodyJson['result'] as List;
-      return resultList.map((v) => Following.fromJson(v)).toList();
-    } catch (e, s) {
-      print('Failed to parse $account: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    final resultList = bodyJson['result'] as List<Map<String, dynamic>>;
+    return resultList.map(Following.fromJson).toList();
   }
 
   Future<DatabaseGlobalProperties> getDatabaseGlobalProperties() async {
     final bodyJson = await _fetchPostData(
-        method: 'database_api.get_dynamic_global_properties');
+      method: 'database_api.get_dynamic_global_properties',
+    );
 
-    try {
-      return DatabaseGlobalProperties.fromJson(bodyJson['result']);
-    } catch (e, s) {
-      print('Failed to parse: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    return DatabaseGlobalProperties.fromJson(
+      bodyJson['result'] as Map<String, dynamic>,
+    );
   }
 
   Future<List<Account>> getAccounts(List<String> usernames) async {
     final bodyJson = await _fetchPostData(
-        method: 'condenser_api.get_accounts', params: [usernames]);
+      method: 'condenser_api.get_accounts',
+      params: [usernames],
+    );
 
-    try {
-      final list = bodyJson['result'] as List;
-      return list.map((d) => Account.fromJson(d)).toList();
-    } catch (e, s) {
-      print('Failed to parse: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    final list = bodyJson['result'] as List<Map<String, dynamic>>;
+    return list.map(Account.fromJson).toList();
   }
 
-  Future<AccountReputations> getAccountReputations(String accountLowerBounds,
-      {int? limit}) async {
-    final Map<String, dynamic> params = {
-      'account_lower_bound': accountLowerBounds
-    };
+  Future<AccountReputations> getAccountReputations(
+    String accountLowerBounds, {
+    int? limit,
+  }) async {
+    final params = <String, dynamic>{'account_lower_bound': accountLowerBounds};
 
     if (limit != null) {
       params['limit'] = limit;
     }
 
     final bodyJson = await _fetchPostData(
-        method: 'reputation_api.get_account_reputations', params: params);
+      method: 'reputation_api.get_account_reputations',
+      params: params,
+    );
 
-    print('getAccountReputations ${jsonEncode(bodyJson)}');
-
-    try {
-      return AccountReputations.fromJson(bodyJson['result']);
-    } catch (e, s) {
-      print('Failed to parse: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    return AccountReputations.fromJson(
+      bodyJson['result'] as Map<String, dynamic>,
+    );
   }
 
-  Future<List<AccountHistoryEntry>> getAccountHistory(String accountName,
-      {int start = 0, int size = 20}) async {
+  Future<List<AccountHistoryEntry>> getAccountHistory(
+    String accountName, {
+    int start = 0,
+    int size = 20,
+  }) async {
     final bodyJson = await _fetchPostData(
-        method: 'condenser_api.get_account_history',
-        params: [accountName, start, size]);
+      method: 'condenser_api.get_account_history',
+      params: [accountName, start, size],
+    );
 
-    try {
-      final entries = bodyJson['result'] as List<dynamic>;
-      return entries
-          .map((entry) => AccountHistoryEntry.fromJson(entry[1]))
-          .toList();
-    } catch (e, s) {
-      print('Failed to parse: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    final entries = bodyJson['result'] as List<Map<String, dynamic>>;
+    return entries
+        .map(
+          (entry) =>
+              AccountHistoryEntry.fromJson(entry[1] as Map<String, dynamic>),
+        )
+        .toList();
   }
 
-  Future<List<Vote>> listVotes(
-      {String? voter,
-      String? author,
-      String? permlink,
-      required int limit}) async {
-    final bodyJson =
-        await _fetchPostData(method: 'database_api.list_votes', params: {
-      'start': [voter ?? '', author ?? '', permlink ?? ''],
-      'limit': limit,
-      'order': 'by_voter_comment'
-    });
-
-    try {
-      final list = bodyJson['result']['votes'] as List;
-      return list.map((d) => Vote.fromJson(d)).toList();
-    } catch (e, s) {
-      print('Failed to parse: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
-  }
-
-  Future<List<dynamic>> lookupAccounts(String lowerBoundName,
-      {int? limit}) async {
+  Future<List<Vote>> listVotes({
+    String? voter,
+    String? author,
+    String? permlink,
+    required int limit,
+  }) async {
     final bodyJson = await _fetchPostData(
-        method: 'condenser_api.lookup_accounts',
-        params: [lowerBoundName, limit]);
+      method: 'database_api.list_votes',
+      params: <String, dynamic>{
+        'start': [voter ?? '', author ?? '', permlink ?? ''],
+        'limit': limit,
+        'order': 'by_voter_comment'
+      },
+    );
 
-    try {
-      return bodyJson['result'] as List<dynamic>;
-    } catch (e, s) {
-      print('Failed to parse: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    final result = bodyJson['result'] as Map<String, dynamic>;
+    final list = result['votes'] as List<Map<String, dynamic>>;
+    return list.map(Vote.fromJson).toList();
   }
 
-  Future<List<AccountNotification>> getAccountNotifications(String account,
-      {int? limit}) async {
+  Future<List<dynamic>> lookupAccounts(
+    String lowerBoundName, {
+    int? limit,
+  }) async {
+    final bodyJson = await _fetchPostData(
+      method: 'condenser_api.lookup_accounts',
+      params: [lowerBoundName, limit],
+    );
+
+    return bodyJson['result'] as List<dynamic>;
+  }
+
+  Future<List<AccountNotification>> getAccountNotifications(
+    String account, {
+    int? limit,
+  }) async {
     if (limit != null && limit > 100) {
-      throw InvalidParametersException('Limit cannot exceed 100');
+      throw const InvalidParametersException('Limit cannot exceed 100');
     }
 
     final bodyJson = await _fetchPostData(
-        method: 'bridge.account_notifications',
-        params: {'account': account, 'limit': limit});
+      method: 'bridge.account_notifications',
+      params: {'account': account, 'limit': limit},
+    );
 
-    try {
-      final list = bodyJson['result'] as List;
-      return list.map((d) => AccountNotification.fromJson(d)).toList();
-    } catch (e, s) {
-      print('Failed to parse: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    final list = bodyJson['result'] as List<Map<String, dynamic>>;
+    return list.map(AccountNotification.fromJson).toList();
   }
 
   Future<UnreadNotifications> getUnreadNotifications(String account) async {
     final bodyJson = await _fetchPostData(
-        method: 'bridge.unread_notifications', params: {'account': account});
+      method: 'bridge.unread_notifications',
+      params: {'account': account},
+    );
 
-    try {
-      final json = bodyJson['result'];
-      return UnreadNotifications.fromJson(json);
-    } catch (e, s) {
-      print('Failed to parse: $e');
-      print(s);
-      print('Failed data: ${jsonEncode(bodyJson)}');
-      throw e;
-    }
+    return UnreadNotifications.fromJson(
+      bodyJson['result'] as Map<String, dynamic>,
+    );
   }
 
-  void close() {
-    _httpClient.close();
+  Future<http.Response> _httpGet(Uri url, {Map<String, String>? headers}) {
+    return httpClient != null
+        ? httpClient!.get(url, headers: headers)
+        : http.get(url, headers: headers);
+  }
+
+  Future<http.Response> _httpPost(
+    Uri url, {
+    Map<String, String>? headers,
+    Object? body,
+    Encoding? encoding,
+  }) {
+    return httpClient != null
+        ? httpClient!
+            .post(url, headers: headers, body: body, encoding: encoding)
+        : http.post(url, headers: headers, body: body, encoding: encoding);
   }
 }
 
 class InvalidParametersException implements Exception {
-  final String message;
-
   const InvalidParametersException(this.message);
+
+  final String message;
 
   @override
   String toString() => 'InvalidParametersException: $message';
@@ -326,9 +292,9 @@ class InvalidParametersException implements Exception {
 
 /// Exception thrown when call fails.
 class ContentRequestFailure implements Exception {
-  final int statusCode;
-
   const ContentRequestFailure({required this.statusCode});
+
+  final int statusCode;
 
   @override
   String toString() {
@@ -337,24 +303,23 @@ class ContentRequestFailure implements Exception {
 }
 
 class NotFoundFailure implements Exception {
-  final String message;
-
   const NotFoundFailure(this.message);
+
+  final String message;
 
   @override
   String toString() => 'NotFoundFailure: $message';
 }
 
 class JsonRpcError implements Exception {
+  JsonRpcError(Map<String, dynamic> errorObj)
+      : code = errorObj['code'] as int,
+        message = errorObj['message'] as String,
+        data = errorObj['data'] as Map<String, dynamic>;
+
   final int code;
   final String message;
   final Map<String, dynamic> data;
-
-  // {code: -32602, message: Invalid parameters, data: missing a required argument: 'author'}
-  JsonRpcError(dynamic errorObj)
-      : code = errorObj['code'],
-        message = errorObj['message'],
-        data = errorObj['data'];
 
   @override
   String toString() => 'JsonRpcError ($code) $message: $data';

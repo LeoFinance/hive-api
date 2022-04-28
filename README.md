@@ -1,5 +1,14 @@
-![Tests](https://github.com/LeoFinance/hive_api/actions/workflows/dart.yml/badge.svg)
+![Tests](https://github.com/LeoFinance/hive-api/actions/workflows/dart.yml/badge.svg)
+[![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis)
 
 # hive_api
 
-A simple API for connecting to the Bridge interface of the Hive network.
+A simple API for connecting to the Hive network.
+
+## Testing
+
+Run `dart test`.
+
+## Building
+
+Run `dart run build_runner watch` to create generated files.

@@ -5,11 +5,12 @@ String stripUtcZ(DateTime dateTime) =>
     dateTime.toIso8601String().replaceFirst('Z', '');
 
 // Used when the incoming data can be either a String or an int
-int forceInt(dynamic json) => json is int ? json : int.parse(json);
+int forceInt(dynamic json) => json is int ? json : int.parse(json as String);
 
 // Used when the incoming data can be either a List or an empty string
-List<String> forceList(dynamic json) =>
-    json is List ? json.map((e) => e.toString()).toList() : const <String>[];
+List<String> forceList(dynamic json) => json is List
+    ? json.map((dynamic e) => e.toString()).toList()
+    : const <String>[];
 
 double fromHive(String s) => _removeAndConvert(s, r' HIVE$');
 double fromHbd(String s) => _removeAndConvert(s, r' HBD$');

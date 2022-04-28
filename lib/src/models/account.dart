@@ -1,12 +1,11 @@
+import 'package:hive_api/src/helpers.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../helpers.dart';
 
 part 'account.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Account {
-  Account({
+  const Account({
     required this.id,
     required this.name,
     required this.owner,
@@ -78,6 +77,9 @@ class Account {
     required this.tagsUsage,
     required this.guestBloggers,
   });
+
+  factory Account.fromJson(Map<String, dynamic> json) =>
+      _$AccountFromJson(json);
 
   final int id;
   final String name;
@@ -166,42 +168,39 @@ class Account {
   final List<dynamic> tagsUsage;
   final List<dynamic> guestBloggers;
 
-  factory Account.fromJson(Map<String, dynamic> json) =>
-      _$AccountFromJson(json);
-
   Map<String, dynamic> toJson() => _$AccountToJson(this);
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Active {
-  Active({
+  const Active({
     required this.weightThreshold,
     required this.accountAuths,
     required this.keyAuths,
   });
 
+  factory Active.fromJson(Map<String, dynamic> json) => _$ActiveFromJson(json);
+
   final int weightThreshold;
   final List<List<dynamic>> accountAuths;
   final List<List<dynamic>> keyAuths;
-
-  factory Active.fromJson(Map<String, dynamic> json) => _$ActiveFromJson(json);
 
   Map<String, dynamic> toJson() => _$ActiveToJson(this);
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Manabar {
-  Manabar({
+  const Manabar({
     required this.currentMana,
     required this.lastUpdateTime,
   });
 
+  factory Manabar.fromJson(Map<String, dynamic> json) =>
+      _$ManabarFromJson(json);
+
   @JsonKey(fromJson: forceInt)
   final int currentMana;
   final int lastUpdateTime;
-
-  factory Manabar.fromJson(Map<String, dynamic> json) =>
-      _$ManabarFromJson(json);
 
   Map<String, dynamic> toJson() => _$ManabarToJson(this);
 }

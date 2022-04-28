@@ -4,7 +4,7 @@ part 'vote.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Vote {
-  Vote({
+  const Vote({
     required this.id,
     required this.voter,
     required this.author,
@@ -16,6 +16,8 @@ class Vote {
     required this.numChanges,
   });
 
+  factory Vote.fromJson(Map<String, dynamic> json) => _$VoteFromJson(json);
+
   final int id;
   final String voter;
   final String author;
@@ -25,8 +27,6 @@ class Vote {
   final int votePercent;
   final DateTime lastUpdate;
   final int numChanges;
-
-  factory Vote.fromJson(Map<String, dynamic> json) => _$VoteFromJson(json);
 
   Map<String, dynamic> toJson() => _$VoteToJson(this);
 

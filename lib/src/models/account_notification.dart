@@ -6,7 +6,7 @@ part 'account_notification.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class AccountNotification extends Equatable {
-  AccountNotification({
+  const AccountNotification({
     required this.id,
     required this.type,
     required this.score,
@@ -14,6 +14,9 @@ class AccountNotification extends Equatable {
     required this.msg,
     required this.url,
   });
+
+  factory AccountNotification.fromJson(Map<String, dynamic> json) =>
+      _$AccountNotificationFromJson(json);
 
   final int id;
   final String type;
@@ -26,13 +29,10 @@ class AccountNotification extends Equatable {
   final String url;
 
   @override
-  List<Object> get props => [id, type, score, date, msg, url];
+  List<Object?> get props => [id, type, score, date, msg, url];
 
   @override
   bool get stringify => true;
-
-  factory AccountNotification.fromJson(Map<String, dynamic> json) =>
-      _$AccountNotificationFromJson(json);
 
   Map<String, dynamic> toJson() => _$AccountNotificationToJson(this);
 }

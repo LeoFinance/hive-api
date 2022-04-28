@@ -1,13 +1,30 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive_api/src/helpers.dart';
+import 'package:hive_api/src/models/models.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'models.dart';
 
 part 'json_metadata.g.dart';
 
 @JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, includeIfNull: false)
+  fieldRename: FieldRename.snake,
+  explicitToJson: true,
+  includeIfNull: false,
+)
 class JsonMetadata extends Equatable {
+  const JsonMetadata({
+    this.app,
+    this.type,
+    this.format = 'markdown',
+    this.links,
+    this.canonicalUrl,
+    this.tags,
+    this.image,
+    this.video,
+  });
+
+  factory JsonMetadata.fromJson(Map<String, dynamic> json) =>
+      _$JsonMetadataFromJson(json);
+
   final String? app;
   final String? type;
   final String format;
@@ -25,19 +42,6 @@ class JsonMetadata extends Equatable {
   // Might be a String or a list of Strings
   @JsonKey(fromJson: forceList)
   final List<String>? image;
-
-  JsonMetadata(
-      {this.app,
-      this.type,
-      this.format = 'markdown',
-      this.links,
-      this.canonicalUrl,
-      this.tags,
-      this.image,
-      this.video});
-
-  factory JsonMetadata.fromJson(Map<String, dynamic> json) =>
-      _$JsonMetadataFromJson(json);
 
   Map<String, dynamic> toJson() => _$JsonMetadataToJson(this);
 
