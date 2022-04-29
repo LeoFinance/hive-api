@@ -128,8 +128,11 @@ class HiveApiClient {
       params: [account, start, type, limit],
     );
 
-    final resultList = bodyJson['result'] as List<Map<String, dynamic>>;
-    return resultList.map(Following.fromJson).toList();
+    final list = bodyJson['result'] as List<dynamic>;
+
+    return [
+      for (final f in list) Following.fromJson(f as Map<String, dynamic>)
+    ];
   }
 
   Future<List<Following>> getFollowers(
@@ -143,8 +146,10 @@ class HiveApiClient {
       params: [account, start, type, limit],
     );
 
-    final resultList = bodyJson['result'] as List<Map<String, dynamic>>;
-    return resultList.map(Following.fromJson).toList();
+    final list = bodyJson['result'] as List<dynamic>;
+    return [
+      for (final f in list) Following.fromJson(f as Map<String, dynamic>)
+    ];
   }
 
   Future<DatabaseGlobalProperties> getDatabaseGlobalProperties() async {
@@ -167,7 +172,7 @@ class HiveApiClient {
     return [for (final a in list) Account.fromJson(a as Map<String, dynamic>)];
   }
 
-  Future<AccountReputations> getAccountReputations(
+  Future<List<AccountReputation>> getAccountReputations(
     String accountLowerBounds, {
     int? limit,
   }) async {
@@ -182,9 +187,13 @@ class HiveApiClient {
       params: params,
     );
 
-    return AccountReputations.fromJson(
-      bodyJson['result'] as Map<String, dynamic>,
-    );
+    final json = bodyJson['result'] as Map<String, dynamic>;
+    final list = json['reputations'] as List<dynamic>;
+
+    return [
+      for (final a in list)
+        AccountReputation.fromJson(a as Map<String, dynamic>)
+    ];
   }
 
   Future<List<AccountHistoryEntry>> getAccountHistory(
@@ -230,7 +239,7 @@ class HiveApiClient {
     ];
   }
 
-  Future<List<dynamic>> lookupAccounts(
+  Future<List<String>> lookupAccounts(
     String lowerBoundName, {
     int? limit,
   }) async {
@@ -239,7 +248,8 @@ class HiveApiClient {
       params: [lowerBoundName, limit],
     );
 
-    return bodyJson['result'] as List<dynamic>;
+    final list = bodyJson['result'] as List<dynamic>;
+    return [for (final a in list) a as String];
   }
 
   Future<List<AccountNotification>> getAccountNotifications(

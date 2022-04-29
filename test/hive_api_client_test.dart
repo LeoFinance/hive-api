@@ -85,44 +85,9 @@ void main() {
         );
         when(httpClient.post(any, body: anyNamed('body')))
             .thenAnswer((_) async => response);
-        final actual =
-            await hiveApiClient.getPost(author: author, permlink: permlink);
-        verify(
-          // httpClient.post(hiveBlogUri, body: {
-          //   'jsonrpc': '2.0',
-          //   'method': 'bridge.get_post',
-          //   'params': {author: author, permlink: permlink},
-          //   'id': 1
-          // }),
-          // TODO Check more specific
-          httpClient.post(any, body: anyNamed('body')),
-        ).called(1);
-
         expect(
-          actual,
-          isA<Post>()
-              .having((p) => p.postId, 'postId', 107387380)
-              .having((p) => p.author, 'author', 'cwow2')
-              .having(
-                (p) => p.permlink,
-                'permlink',
-                'selling-my-hive-goodbye',
-              )
-              .having(
-                (p) => p.activeVotes,
-                'activeVotes',
-                contains(
-                  ActiveVote(
-                    rshares: 4585790624,
-                    voter: 'kennyskitchen',
-                  ),
-                ),
-              )
-              .having(
-                (p) => p.jsonMetadata.app,
-                'jsonMetadata',
-                'peakd/2021.09.1',
-              ),
+          await hiveApiClient.getPost(author: author, permlink: permlink),
+          isA<Post>(),
         );
       });
     });
@@ -178,32 +143,216 @@ void main() {
         );
         when(httpClient.post(any, body: anyNamed('body')))
             .thenAnswer((_) async => response);
-        final actual = await hiveApiClient.getDiscussion(
-          author: author,
-          permlink: permlink,
-        );
-        verify(
-          // httpClient.post(hiveBlogUri, body: {
-          //   'jsonrpc': '2.0',
-          //   'method': 'bridge.get_discussion',
-          //   'params': {author: author, permlink: permlink},
-          //   'id': 1
-          // }),
-          // TODO Check more specific
-          httpClient.post(any, body: anyNamed('body')),
-        ).called(1);
-
         expect(
-          actual,
-          isA<Discussion>()
-              .having((d) => d.post.postId, 'postId', 107387380)
-              .having((d) => d.post.author, 'author', 'cwow2')
-              .having(
-                (d) => d.post.permlink,
-                'permlink',
-                'selling-my-hive-goodbye',
-              )
-              .having((d) => d.comments, 'comments', hasLength(35)),
+          await hiveApiClient.getDiscussion(
+            author: author,
+            permlink: permlink,
+          ),
+          isA<Discussion>(),
+        );
+      });
+    });
+
+    group('profile', () {
+      final accountName = faker.internet.userName();
+      test('returns Profile on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': jsonDecode(
+              await File('test/samples/profile.json').readAsString(),
+            ),
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await hiveApiClient.getProfile(accountName),
+          isA<Profile>(),
+        );
+      });
+    });
+
+    group('followCount', () {
+      final accountName = faker.internet.userName();
+      test('returns FollowCount on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': jsonDecode(
+              await File('test/samples/follow_count.json').readAsString(),
+            ),
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await hiveApiClient.getFollowCount(accountName),
+          isA<FollowCount>(),
+        );
+      });
+    });
+
+    group('following', () {
+      final accountName = faker.internet.userName();
+      test('returns List<Following> on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': jsonDecode(
+              await File('test/samples/get_following.json').readAsString(),
+            ),
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await hiveApiClient.getFollowing(accountName),
+          isA<List<Following>>(),
+        );
+      });
+    });
+
+    group('followers', () {
+      final accountName = faker.internet.userName();
+      test('returns List<Following> on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': jsonDecode(
+              await File('test/samples/get_followers.json').readAsString(),
+            ),
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await hiveApiClient.getFollowers(accountName),
+          isA<List<Following>>(),
+        );
+      });
+    });
+
+    group('databaseGlobalProperties', () {
+      test('returns DatabaseGlobalProperties on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': jsonDecode(
+              await File('test/samples/database_global_properties.json')
+                  .readAsString(),
+            ),
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await hiveApiClient.getDatabaseGlobalProperties(),
+          isA<DatabaseGlobalProperties>(),
+        );
+      });
+    });
+
+    group('accounts', () {
+      final accountName = faker.internet.userName();
+      test('returns List<Account> on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': jsonDecode(
+              await File('test/samples/accounts.json').readAsString(),
+            ),
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await hiveApiClient.getAccounts([accountName]),
+          isA<List<Account>>(),
+        );
+      });
+    });
+
+    group('accountReputations', () {
+      final accountName = faker.internet.userName();
+      test('returns List<AccountReputation> on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': jsonDecode(
+              await File('test/samples/get_account_reputations.json')
+                  .readAsString(),
+            ),
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await hiveApiClient.getAccountReputations(accountName),
+          isA<List<AccountReputation>>(),
         );
       });
     });
@@ -266,6 +415,35 @@ void main() {
       });
     });
 
+    group('lookupAccounts', () {
+      final accountName = faker.internet.userName();
+      test('returns List<String> on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': jsonDecode(
+              await File('test/samples/lookup_accounts.json').readAsString(),
+            ),
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await hiveApiClient.lookupAccounts(accountName),
+          isA<List<String>>(),
+        );
+      });
+    });
+
     group('accountNotifications', () {
       final accountName = faker.internet.userName();
       test('returns List<AccountNotification> on valid response', () async {
@@ -296,16 +474,17 @@ void main() {
       });
     });
 
-    group('accounts', () {
+    group('unreadNotifications', () {
       final accountName = faker.internet.userName();
-      test('returns List<Account> on valid response', () async {
+      test('returns UnreadNotifications on valid response', () async {
         final response = MockResponse();
         when(response.statusCode).thenReturn(200);
         when(response.body).thenReturn(
           jsonEncode(<String, dynamic>{
             'jsonrpc': '2.0',
             'result': jsonDecode(
-              await File('test/samples/accounts.json').readAsString(),
+              await File('test/samples/unread_notifications.json')
+                  .readAsString(),
             ),
             'id': 1
           }),
@@ -319,8 +498,8 @@ void main() {
           ),
         ).thenAnswer((_) async => response);
         expect(
-          await hiveApiClient.getAccounts([accountName]),
-          isA<List<Account>>(),
+          await hiveApiClient.getUnreadNotifications(accountName),
+          isA<UnreadNotifications>(),
         );
       });
     });

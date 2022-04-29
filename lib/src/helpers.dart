@@ -7,6 +7,10 @@ String stripUtcZ(DateTime dateTime) =>
 // Used when the incoming data can be either a String or an int
 int forceInt(dynamic json) => json is int ? json : int.parse(json as String);
 
+// Used when the incoming data can be either a String or an int
+String forceString(dynamic json) =>
+    json is String ? json : (json as int).toString();
+
 // Used when the incoming data can be either a List or an empty string
 List<String> forceList(dynamic json) => json is List
     ? json.map((dynamic e) => e.toString()).toList()

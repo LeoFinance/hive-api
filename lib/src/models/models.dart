@@ -1,7 +1,7 @@
 export 'account.dart';
 export 'account_history_entry.dart';
 export 'account_notification.dart';
-export 'account_reputations.dart';
+export 'account_reputation.dart';
 export 'active_vote.dart';
 export 'beneficiary.dart';
 export 'database_global_properties.dart';
