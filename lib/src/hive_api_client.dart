@@ -19,6 +19,8 @@ class HiveApiClient {
   final http.Client? httpClient;
   final Random random = Random.secure();
 
+  /// Return a post with the given parameters.
+  /// Throws a NotFoundFailure if a post could not be found.
   Future<Post> getPost({
     required String author,
     required String permlink,
@@ -69,6 +71,8 @@ class HiveApiClient {
     return jsonEncode(body);
   }
 
+  /// Return a discussion with the given parameters.
+  /// Throws a NotFoundFailure if a post could not be found.
   Future<Discussion> getDiscussion({
     required String author,
     required String permlink,
@@ -159,8 +163,8 @@ class HiveApiClient {
       params: [usernames],
     );
 
-    final list = bodyJson['result'] as List<Map<String, dynamic>>;
-    return list.map(Account.fromJson).toList();
+    final list = bodyJson['result'] as List<dynamic>;
+    return [for (final a in list) Account.fromJson(a as Map<String, dynamic>)];
   }
 
   Future<AccountReputations> getAccountReputations(
@@ -193,33 +197,37 @@ class HiveApiClient {
       params: [accountName, start, size],
     );
 
-    final entries = bodyJson['result'] as List<Map<String, dynamic>>;
-    return entries
-        .map(
-          (entry) =>
-              AccountHistoryEntry.fromJson(entry[1] as Map<String, dynamic>),
+    final json = bodyJson['result'] as List<dynamic>;
+
+    // See samples/accounts_history.json
+    return [
+      for (final entry in json)
+        AccountHistoryEntry.fromJson(
+          (entry as List<dynamic>)[1] as Map<String, dynamic>,
         )
-        .toList();
+    ];
   }
 
   Future<List<Vote>> listVotes({
-    String? voter,
+    required String voter,
     String? author,
     String? permlink,
-    required int limit,
+    int? limit,
   }) async {
     final bodyJson = await _fetchPostData(
       method: 'database_api.list_votes',
       params: <String, dynamic>{
-        'start': [voter ?? '', author ?? '', permlink ?? ''],
+        'start': [voter, author ?? '', permlink ?? ''],
         'limit': limit,
         'order': 'by_voter_comment'
       },
     );
 
     final result = bodyJson['result'] as Map<String, dynamic>;
-    final list = result['votes'] as List<Map<String, dynamic>>;
-    return list.map(Vote.fromJson).toList();
+    final votes = result['votes'] as List<dynamic>;
+    return [
+      for (final vote in votes) Vote.fromJson(vote as Map<String, dynamic>)
+    ];
   }
 
   Future<List<dynamic>> lookupAccounts(
@@ -247,8 +255,11 @@ class HiveApiClient {
       params: {'account': account, 'limit': limit},
     );
 
-    final list = bodyJson['result'] as List<Map<String, dynamic>>;
-    return list.map(AccountNotification.fromJson).toList();
+    final list = bodyJson['result'] as List<dynamic>;
+    return [
+      for (final an in list)
+        AccountNotification.fromJson(an as Map<String, dynamic>)
+    ];
   }
 
   Future<UnreadNotifications> getUnreadNotifications(String account) async {

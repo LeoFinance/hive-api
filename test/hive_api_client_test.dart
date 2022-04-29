@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
+import 'package:faker/faker.dart';
 import 'package:hive_api/hive_api.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
@@ -203,6 +204,123 @@ void main() {
                 'selling-my-hive-goodbye',
               )
               .having((d) => d.comments, 'comments', hasLength(35)),
+        );
+      });
+    });
+
+    group('getAccountHistory', () {
+      final accountName = faker.internet.userName();
+      test('returns List<AccountHistory> on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': jsonDecode(
+              await File('test/samples/account_history.json').readAsString(),
+            ),
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await hiveApiClient.getAccountHistory(accountName),
+          isA<List<AccountHistoryEntry>>(),
+        );
+      });
+    });
+
+    group('listVotes', () {
+      final accountName = faker.internet.userName();
+      test('returns List<Vote> on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': jsonDecode(
+              await File('test/samples/list_votes.json').readAsString(),
+            ),
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await hiveApiClient.listVotes(voter: accountName),
+          isA<List<Vote>>(),
+        );
+      });
+    });
+
+    group('accountNotifications', () {
+      final accountName = faker.internet.userName();
+      test('returns List<AccountNotification> on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': jsonDecode(
+              await File('test/samples/account_notifications.json')
+                  .readAsString(),
+            ),
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await hiveApiClient.getAccountNotifications(accountName),
+          isA<List<AccountNotification>>(),
+        );
+      });
+    });
+
+    group('accounts', () {
+      final accountName = faker.internet.userName();
+      test('returns List<Account> on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': jsonDecode(
+              await File('test/samples/accounts.json').readAsString(),
+            ),
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await hiveApiClient.getAccounts([accountName]),
+          isA<List<Account>>(),
         );
       });
     });
