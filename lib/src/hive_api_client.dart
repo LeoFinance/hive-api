@@ -269,12 +269,6 @@ class HiveApiClient {
     );
   }
 
-  Future<http.Response> _httpGet(Uri url, {Map<String, String>? headers}) {
-    return httpClient != null
-        ? httpClient!.get(url, headers: headers)
-        : http.get(url, headers: headers);
-  }
-
   Future<http.Response> _httpPost(
     Uri url, {
     Map<String, String>? headers,
