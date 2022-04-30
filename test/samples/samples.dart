@@ -14,14 +14,3 @@ Future<Post> samplePost() async {
   final j = jsonDecode(s) as Map<String, dynamic>;
   return Post.fromJson(j);
 }
-
-// Future<ProfileStats> sampleStats() async => File('test/samples/post.json')
-//     .readAsString()
-//     .then(jsonDecode)
-//     .then((json) => ProfileStats.fromJson(json["stats"]));
-
-// Future<Discussion> sampleDiscussion() async =>
-//     File('test/samples/discussion.json')
-//         .readAsString()
-//         .then(jsonDecode)
-//         .then((json) => Discussion.fromJson(json));
