@@ -12,3 +12,7 @@
 - `lookupAccounts` now returns `List<String>` instead of `List<dynamic>`
 - Fix more casting errors in List operations
 - Add tests for all public functions
+
+## 0.2.1
+
+- Remove unused `getFeedJson`

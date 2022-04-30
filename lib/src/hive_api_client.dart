@@ -85,20 +85,6 @@ class HiveApiClient {
     return Discussion.fromJson(bodyJson['result'] as Map<String, dynamic>);
   }
 
-  Future<List<dynamic>> getFeedJson({
-    required String tag,
-    required String sort,
-  }) async {
-    final uri = Uri.https(_baseUrl, '/lightning/feeds/$tag/$sort');
-    final postResponse = await _httpGet(uri);
-
-    if (postResponse.statusCode != 200) {
-      throw ContentRequestFailure(statusCode: postResponse.statusCode);
-    }
-
-    return jsonDecode(postResponse.body) as List<dynamic>;
-  }
-
   Future<Profile> getProfile(String account) async {
     final bodyJson = await _fetchPostData(
       method: 'bridge.get_profile',
