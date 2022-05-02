@@ -325,6 +325,27 @@ void main() {
           isA<List<Account>>(),
         );
       });
+
+      test('returns empty array when user not found', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': const <Account>[],
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+        expect(await hiveApiClient.getAccounts([accountName]), hasLength(0));
+      });
     });
 
     group('accountReputations', () {
