@@ -6,29 +6,6 @@ part of 'account_history_entry.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AccountHistoryEntry _$AccountHistoryEntryFromJson(Map<String, dynamic> json) =>
-    AccountHistoryEntry(
-      trxId: json['trx_id'] as String,
-      block: json['block'] as int,
-      trxInBlock: json['trx_in_block'] as int,
-      opInTrx: json['op_in_trx'] as int,
-      virtualOp: json['virtual_op'] as int,
-      timestamp: forceUtcDate(json['timestamp'] as String),
-      op: AccountHistoryEntry._arrayToOp(json['op'] as List),
-    );
-
-Map<String, dynamic> _$AccountHistoryEntryToJson(
-        AccountHistoryEntry instance) =>
-    <String, dynamic>{
-      'trx_id': instance.trxId,
-      'block': instance.block,
-      'trx_in_block': instance.trxInBlock,
-      'op_in_trx': instance.opInTrx,
-      'virtual_op': instance.virtualOp,
-      'timestamp': stripUtcZ(instance.timestamp),
-      'op': AccountHistoryEntry._opToArray(instance.op),
-    };
-
 Op _$OpFromJson(Map<String, dynamic> json) => Op(
       type: json['type'] as String,
       data: json['data'],

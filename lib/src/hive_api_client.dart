@@ -11,6 +11,7 @@ class HiveApiClient {
 
   // TODO(shawnlauzon): Switch to different URLs, https://github.com/LeoFinance/hive-api/issues/1
   static const _baseUrl = 'api.deathwing.me';
+
   // static const _baseUrl = 'api.hive.blog';
 
   static const maxNonce = 1 << 32; // max value of Random.secure()
@@ -197,9 +198,7 @@ class HiveApiClient {
     // See samples/accounts_history.json
     return [
       for (final entry in json)
-        AccountHistoryEntry.fromJson(
-          (entry as List<dynamic>)[1] as Map<String, dynamic>,
-        )
+        AccountHistoryEntry.fromJson(entry as List<dynamic>)
     ];
   }
 
