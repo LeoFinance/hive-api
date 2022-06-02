@@ -16,3 +16,7 @@
 ## 0.2.1
 
 - Remove unused `getFeedJson`
+
+## 0.3.0
+
+- Make account history JSON parser support indices; required for community support
