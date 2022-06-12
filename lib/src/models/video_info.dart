@@ -6,7 +6,7 @@ part 'video_info.g.dart';
 @JsonSerializable()
 class VideoInfo extends Equatable {
   const VideoInfo({
-    required this.platform,
+    this.platform,
     required this.title,
     required this.author,
     required this.permlink,
@@ -17,12 +17,14 @@ class VideoInfo extends Equatable {
     this.firstUpload,
     this.ipfs,
     this.ipfsThumbnail,
+    this.spritehash,
+    this.snaphash,
   });
 
   factory VideoInfo.fromJson(Map<String, dynamic> json) =>
       _$VideoInfoFromJson(json);
 
-  final String platform;
+  final String? platform;
   final String title;
   final String author;
   final String permlink;
@@ -33,6 +35,8 @@ class VideoInfo extends Equatable {
   final bool? firstUpload;
   final String? ipfs;
   final String? ipfsThumbnail;
+  final String? spritehash;
+  final String? snaphash;
 
   Map<String, dynamic> toJson() => _$VideoInfoToJson(this);
 
@@ -48,6 +52,8 @@ class VideoInfo extends Equatable {
         lang,
         firstUpload,
         ipfs,
-        ipfsThumbnail
+        ipfsThumbnail,
+        spritehash,
+        snaphash
       ];
 }

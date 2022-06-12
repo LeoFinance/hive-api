@@ -20,3 +20,8 @@
 ## 0.3.0
 
 - Make account history JSON parser support indices; required for community support
+
+## 0.3.1
+
+- Allow null for VideoInfo.platform
+- Add fields spritehash and snaphash to VideoInfo

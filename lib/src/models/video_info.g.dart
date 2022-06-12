@@ -7,7 +7,7 @@ part of 'video_info.dart';
 // **************************************************************************
 
 VideoInfo _$VideoInfoFromJson(Map<String, dynamic> json) => VideoInfo(
-      platform: json['platform'] as String,
+      platform: json['platform'] as String?,
       title: json['title'] as String,
       author: json['author'] as String,
       permlink: json['permlink'] as String,
@@ -18,6 +18,8 @@ VideoInfo _$VideoInfoFromJson(Map<String, dynamic> json) => VideoInfo(
       firstUpload: json['firstUpload'] as bool?,
       ipfs: json['ipfs'] as String?,
       ipfsThumbnail: json['ipfsThumbnail'] as String?,
+      spritehash: json['spritehash'] as String?,
+      snaphash: json['snaphash'] as String?,
     );
 
 Map<String, dynamic> _$VideoInfoToJson(VideoInfo instance) => <String, dynamic>{
@@ -32,4 +34,6 @@ Map<String, dynamic> _$VideoInfoToJson(VideoInfo instance) => <String, dynamic>{
       'firstUpload': instance.firstUpload,
       'ipfs': instance.ipfs,
       'ipfsThumbnail': instance.ipfsThumbnail,
+      'spritehash': instance.spritehash,
+      'snaphash': instance.snaphash,
     };
