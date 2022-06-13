@@ -29,3 +29,7 @@
 ## 0.4.0
 
 - Add getDiscussionsBy
+
+## 0.4.1
+
+- Fix return type of getDiscussionsBy

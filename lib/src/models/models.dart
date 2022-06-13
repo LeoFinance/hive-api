@@ -6,6 +6,7 @@ export 'active_vote.dart';
 export 'beneficiary.dart';
 export 'database_global_properties.dart';
 export 'discussion.dart';
+export 'discussion_by.dart';
 export 'follow_count.dart';
 export 'following.dart';
 export 'json_metadata.dart';

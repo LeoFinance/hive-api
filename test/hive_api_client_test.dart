@@ -532,11 +532,9 @@ void main() {
         when(response.body).thenReturn(
           jsonEncode(<String, dynamic>{
             'jsonrpc': '2.0',
-            'result': <dynamic>[
-              jsonDecode(
-                await File('test/samples/discussion.json').readAsString(),
-              )
-            ],
+            'result': jsonDecode(
+              await File('test/samples/get_discussions_by.json').readAsString(),
+            ),
             'id': 1
           }),
         );
@@ -551,7 +549,7 @@ void main() {
 
         final name = faker.internet.userName();
         await hiveApiClient.getDiscussionsBy(
-          DiscussionsSort.blog,
+          DiscussionBySort.blog,
           tag: name,
         );
         verify(

@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:hive_api/src/models/models.dart';
 import 'package:http/http.dart' as http;
 
-enum DiscussionsSort {
+enum DiscussionBySort {
   active,
   blog,
   cashout,
@@ -102,8 +102,8 @@ class HiveApiClient {
 
   /// Return a discussion with the given parameters.
   /// Throws a NotFoundFailure if a post could not be found.
-  Future<List<Discussion>> getDiscussionsBy(
-    DiscussionsSort sort, {
+  Future<List<DiscussionBy>> getDiscussionsBy(
+    DiscussionBySort sort, {
     required String tag,
     int? limit,
     List<String>? filterTags,
@@ -127,7 +127,7 @@ class HiveApiClient {
     final list = bodyJson['result'] as List<dynamic>;
 
     return [
-      for (final f in list) Discussion.fromJson(f as Map<String, dynamic>),
+      for (final f in list) DiscussionBy.fromJson(f as Map<String, dynamic>),
     ];
   }
 
