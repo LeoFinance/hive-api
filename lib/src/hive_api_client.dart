@@ -5,6 +5,20 @@ import 'dart:math';
 import 'package:hive_api/src/models/models.dart';
 import 'package:http/http.dart' as http;
 
+enum DiscussionsSort {
+  active,
+  blog,
+  cashout,
+  children,
+  comments,
+  created,
+  feed,
+  hot,
+  promoted,
+  trending,
+  votes
+}
+
 class HiveApiClient {
   /// {@macro hive_api_client}
   HiveApiClient({this.httpClient});
@@ -84,6 +98,63 @@ class HiveApiClient {
     );
 
     return Discussion.fromJson(bodyJson['result'] as Map<String, dynamic>);
+  }
+
+  /// Return a discussion with the given parameters.
+  /// Throws a NotFoundFailure if a post could not be found.
+  Future<List<Discussion>> getDiscussionsBy(
+    DiscussionsSort sort, {
+    required String tag,
+    int? limit,
+    List<String>? filterTags,
+    List<String>? selectAuthors,
+    List<String>? selectTags,
+    int? truncateBody,
+  }) async {
+    final params = _buildParamsObj(<String, dynamic>{
+      'tag': tag,
+      'limit': limit,
+      'filter_tags': filterTags,
+      'select_authors': selectAuthors,
+      'select_tags': selectTags
+    });
+
+    final bodyJson = await _fetchPostData(
+      method: 'condenser_api.get_discussions_by_${sort.name}',
+      params: [params],
+    );
+
+    final list = bodyJson['result'] as List<dynamic>;
+
+    return [
+      for (final f in list) Discussion.fromJson(f as Map<String, dynamic>),
+    ];
+  }
+
+  Object _buildParamsObj(Map<String, dynamic> params) {
+    return <String, dynamic>{
+      for (final e in params.entries)
+        if (e.value != null) e.key: e.value
+    };
+  }
+
+  Future<List<Post>> getRepliesByLastUpdate({
+    required String startParentAuthor,
+    String? startPermlink = '',
+    int? limit,
+  }) async {
+    final params = <dynamic>[startParentAuthor, startPermlink];
+    if (limit != null) {
+      params.add(limit);
+    }
+    final bodyJson = await _fetchPostData(
+      method: 'bridge.get_replies_by_last_update',
+      params: params,
+    );
+
+    final list = bodyJson['result'] as List<dynamic>;
+
+    return [for (final f in list) Post.fromJson(f as Map<String, dynamic>)];
   }
 
   Future<Profile> getProfile(String account) async {
@@ -187,10 +258,25 @@ class HiveApiClient {
     String accountName, {
     int start = 0,
     int size = 20,
+    int? operationFilterLow,
+    int? operationFilterHigh,
   }) async {
+    if (operationFilterHigh != null && operationFilterLow == null) {
+      throw Exception(
+        'Must set operationFilterLow if operationFilterHigh is set',
+      );
+    }
+    final params = [accountName, start, size];
+    if (operationFilterLow != null) {
+      params.add(operationFilterLow);
+    }
+    if (operationFilterHigh != null) {
+      params.add(operationFilterHigh);
+    }
+
     final bodyJson = await _fetchPostData(
       method: 'condenser_api.get_account_history',
-      params: [accountName, start, size],
+      params: params,
     );
 
     final json = bodyJson['result'] as List<dynamic>;
@@ -271,7 +357,7 @@ class HiveApiClient {
   Future<http.Response> _httpPost(
     Uri url, {
     Map<String, String>? headers,
-    Object? body,
+    String? body,
     Encoding? encoding,
   }) {
     return httpClient != null

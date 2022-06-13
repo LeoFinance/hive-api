@@ -25,3 +25,7 @@
 
 - Allow null for VideoInfo.platform
 - Add fields spritehash and snaphash to VideoInfo
+
+## 0.4.0
+
+- Add getDiscussionsBy

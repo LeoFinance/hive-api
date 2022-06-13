@@ -524,5 +524,52 @@ void main() {
         );
       });
     });
+
+    group('getDiscussionsBy', () {
+      test('returns getDiscussionsBy calls the proper API call', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          jsonEncode(<String, dynamic>{
+            'jsonrpc': '2.0',
+            'result': <dynamic>[
+              jsonDecode(
+                await File('test/samples/discussion.json').readAsString(),
+              )
+            ],
+            'id': 1
+          }),
+        );
+        when(
+          httpClient.post(
+            any,
+            body: anyNamed('body'),
+            headers: anyNamed('headers'),
+            encoding: anyNamed('encoding'),
+          ),
+        ).thenAnswer((_) async => response);
+
+        final name = faker.internet.userName();
+        await hiveApiClient.getDiscussionsBy(
+          DiscussionsSort.blog,
+          tag: name,
+        );
+        verify(
+          httpClient.post(
+            any,
+            body: argThat(
+              allOf(
+                  contains(
+                    'condenser_api.get_discussions_by_blog',
+                  ),
+                  contains(
+                    '[{"tag":"$name"}',
+                  )),
+              named: 'body',
+            ),
+          ),
+        );
+      });
+    });
   });
 }
