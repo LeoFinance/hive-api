@@ -557,12 +557,13 @@ void main() {
             any,
             body: argThat(
               allOf(
-                  contains(
-                    'condenser_api.get_discussions_by_blog',
-                  ),
-                  contains(
-                    '[{"tag":"$name"}',
-                  )),
+                contains(
+                  'condenser_api.get_discussions_by_blog',
+                ),
+                contains(
+                  '[{"tag":"$name"}',
+                ),
+              ),
               named: 'body',
             ),
           ),
