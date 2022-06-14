@@ -33,3 +33,7 @@
 ## 0.4.1
 
 - Fix return type of getDiscussionsBy
+
+## 0.4.2
+
+- Misc serialization failures

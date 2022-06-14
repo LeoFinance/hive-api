@@ -13,9 +13,7 @@ Video _$VideoFromJson(Map<String, dynamic> json) => Video(
       content: json['content'] == null
           ? null
           : VideoContent.fromJson(json['content'] as Map<String, dynamic>),
-      files: (json['files'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as String),
-      ),
+      files: json['files'] as Map<String, dynamic>?,
       dur: json['dur'] as String?,
       tag: json['tag'] as String?,
       thumbnailUrlExternal: json['thumbnailUrlExternal'] as String?,

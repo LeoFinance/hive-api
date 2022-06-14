@@ -23,7 +23,7 @@ class Video extends Equatable {
 
   final VideoInfo? info;
   final VideoContent? content;
-  final Map<String, String>? files;
+  final Map<String, dynamic>? files;
   final String? dur;
   final String? tag;
   final String? thumbnailUrlExternal;

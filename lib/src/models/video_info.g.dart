@@ -13,7 +13,7 @@ VideoInfo _$VideoInfoFromJson(Map<String, dynamic> json) => VideoInfo(
       permlink: json['permlink'] as String,
       duration: (json['duration'] as num).toDouble(),
       filesize: json['filesize'] as int,
-      file: json['file'] as String,
+      file: json['file'] as String?,
       lang: json['lang'] as String?,
       firstUpload: json['firstUpload'] as bool?,
       ipfs: json['ipfs'] as String?,

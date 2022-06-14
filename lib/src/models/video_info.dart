@@ -12,7 +12,7 @@ class VideoInfo extends Equatable {
     required this.permlink,
     required this.duration,
     required this.filesize,
-    required this.file,
+    this.file,
     this.lang,
     this.firstUpload,
     this.ipfs,
@@ -30,7 +30,7 @@ class VideoInfo extends Equatable {
   final String permlink;
   final double duration;
   final int filesize;
-  final String file;
+  final String? file;
   final String? lang;
   final bool? firstUpload;
   final String? ipfs;
