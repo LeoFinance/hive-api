@@ -37,3 +37,7 @@
 ## 0.4.2
 
 - Misc serialization failures
+
+## 0.4.3
+
+- Handle String Post.jsonMetadata
