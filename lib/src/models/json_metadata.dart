@@ -25,6 +25,8 @@ class JsonMetadata extends Equatable {
   factory JsonMetadata.fromJson(Map<String, dynamic> json) =>
       _$JsonMetadataFromJson(json);
 
+  static const empty = JsonMetadata();
+
   final String? app;
   final String? type;
   final String format;

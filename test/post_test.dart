@@ -68,5 +68,13 @@ void main() {
         ),
       );
     });
+
+    test('handles bad JsonMetadata', () async {
+      final s =
+          await File('test/samples/post_no_json_metadata.json').readAsString();
+      final json = jsonDecode(s) as Map<String, dynamic>;
+
+      expect(Post.fromJson(json), isA<Post>());
+    });
   });
 }

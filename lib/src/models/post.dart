@@ -56,6 +56,8 @@ class Post extends Equatable {
   final String category;
   final String title;
   final String body;
+
+  @JsonKey(fromJson: _fromJsonMetadata)
   final JsonMetadata jsonMetadata;
   @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime created;
@@ -122,6 +124,10 @@ class Post extends Equatable {
 
   @override
   String toString() => 'hive_api.Post @$author/$permlink';
+
+  static JsonMetadata _fromJsonMetadata(dynamic json) => json is String
+      ? JsonMetadata.empty
+      : JsonMetadata.fromJson(json as Map<String, dynamic>);
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)

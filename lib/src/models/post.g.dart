@@ -13,8 +13,7 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       category: json['category'] as String,
       title: json['title'] as String,
       body: json['body'] as String,
-      jsonMetadata:
-          JsonMetadata.fromJson(json['json_metadata'] as Map<String, dynamic>),
+      jsonMetadata: Post._fromJsonMetadata(json['json_metadata']),
       created: forceUtcDate(json['created'] as String),
       updated: forceUtcDate(json['updated'] as String),
       depth: json['depth'] as int,
