@@ -41,3 +41,7 @@
 ## 0.4.3
 
 - Handle String Post.jsonMetadata
+
+## 0.4.4
+
+- Remove accidentally published code that breaks interface
