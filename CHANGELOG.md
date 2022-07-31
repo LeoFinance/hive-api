@@ -45,3 +45,7 @@
 ## 0.4.4
 
 - Remove accidentally published code that breaks interface
+
+## 0.4.5
+
+- Allow JsonRpcError.data to be String (sometimes Hive returns this)

@@ -401,11 +401,11 @@ class JsonRpcError implements Exception {
   JsonRpcError(Map<String, dynamic> errorObj)
       : code = errorObj['code'] as int,
         message = errorObj['message'] as String,
-        data = errorObj['data'] as Map<String, dynamic>;
+        data = errorObj['data'];
 
   final int code;
   final String message;
-  final Map<String, dynamic> data;
+  final dynamic data;
 
   @override
   String toString() => 'JsonRpcError ($code) $message: $data';

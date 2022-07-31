@@ -1,6 +1,6 @@
 name: hive_api
 description: A simple API for connecting to the Hive network.
-version: 0.4.4
+version: 0.4.5
 repository: https://github.com/LeoFinance/hive-api
 
 environment:
