@@ -49,3 +49,7 @@
 ## 0.4.5
 
 - Allow JsonRpcError.data to be String (sometimes Hive returns this)
+
+## 0.4.6
+
+- Throw NotFoundFailure on Hive error -31999

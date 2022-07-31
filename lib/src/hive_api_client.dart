@@ -63,10 +63,9 @@ class HiveApiClient {
     final bodyJson = jsonDecode(response.body) as Map<String, dynamic>;
 
     if (bodyJson['error'] != null) {
-      if ((bodyJson['error'] as Map<String, dynamic>)['code'] == -32602) {
-        throw NotFoundFailure(
-          'Data not found for method $method with params $params',
-        );
+      final error = bodyJson['error'] as Map<String, dynamic>;
+      if ([-32602, -31999].contains(error['code'])) {
+        throw NotFoundFailure(error['data'].toString());
       } else {
         throw JsonRpcError(bodyJson['error'] as Map<String, dynamic>);
       }
