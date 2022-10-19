@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:hive_api/src/models/models.dart';
+import 'package:leofinance_hive_api/src/models/models.dart';
 import 'package:http/http.dart' as http;
 
 enum DiscussionBySort {

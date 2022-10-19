@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:hive_api/src/models/models.dart';
+import 'package:leofinance_hive_api/src/models/models.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'discussion.g.dart';

@@ -1,4 +1,4 @@
-import 'package:hive_api/src/helpers.dart';
+import 'package:leofinance_hive_api/src/helpers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'account.g.dart';

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
-import 'package:hive_api/src/helpers.dart';
-import 'package:hive_api/src/models/models.dart';
+import 'package:leofinance_hive_api/src/helpers.dart';
+import 'package:leofinance_hive_api/src/models/models.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'discussion_by.g.dart';
