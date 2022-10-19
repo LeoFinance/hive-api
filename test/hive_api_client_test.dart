@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 import 'package:faker/faker.dart';
-import 'package:leofinance_hive_api/leofinance_hive_api.dart';
+import 'package:leofinance_hive_api/hive_api.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

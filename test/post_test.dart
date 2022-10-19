@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:leofinance_hive_api/leofinance_hive_api.dart';
+import 'package:leofinance_hive_api/hive_api.dart';
 import 'package:test/test.dart';
 
 void main() {
