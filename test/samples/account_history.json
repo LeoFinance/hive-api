@@ -6,7 +6,7 @@
       "block": 4882062,
       "trx_in_block": 0,
       "op_in_trx": 0,
-      "virtual_op": 0,
+      "virtual_op": false,
       "timestamp": "2016-09-11T16:56:45",
       "op": [
         "account_create",
@@ -48,7 +48,7 @@
       "block": 4882253,
       "trx_in_block": 3,
       "op_in_trx": 0,
-      "virtual_op": 0,
+      "virtual_op": false,
       "timestamp": "2016-09-11T17:06:18",
       "op": [
         "vote",
@@ -68,7 +68,7 @@
       "block": 4882278,
       "trx_in_block": 1,
       "op_in_trx": 0,
-      "virtual_op": 1,
+      "virtual_op": true,
       "timestamp": "2016-09-11T17:07:36",
       "op": [
         "effective_comment_vote",
@@ -91,7 +91,7 @@
       "block": 4882278,
       "trx_in_block": 1,
       "op_in_trx": 0,
-      "virtual_op": 0,
+      "virtual_op": false,
       "timestamp": "2016-09-11T17:07:36",
       "op": [
         "vote",
@@ -111,7 +111,7 @@
       "block": 4882438,
       "trx_in_block": 0,
       "op_in_trx": 0,
-      "virtual_op": 0,
+      "virtual_op": false,
       "timestamp": "2016-09-11T17:15:39",
       "op": [
         "comment",
@@ -134,7 +134,7 @@
       "block": 4882566,
       "trx_in_block": 0,
       "op_in_trx": 0,
-      "virtual_op": 1,
+      "virtual_op": true,
       "timestamp": "2016-09-11T17:22:06",
       "op": [
         "effective_comment_vote",
@@ -157,7 +157,7 @@
       "block": 4882566,
       "trx_in_block": 0,
       "op_in_trx": 0,
-      "virtual_op": 0,
+      "virtual_op": false,
       "timestamp": "2016-09-11T17:22:06",
       "op": [
         "vote",
@@ -177,7 +177,7 @@
       "block": 4882637,
       "trx_in_block": 0,
       "op_in_trx": 0,
-      "virtual_op": 0,
+      "virtual_op": false,
       "timestamp": "2016-09-11T17:25:39",
       "op": [
         "comment",
@@ -200,7 +200,7 @@
       "block": 4882682,
       "trx_in_block": 0,
       "op_in_trx": 0,
-      "virtual_op": 1,
+      "virtual_op": true,
       "timestamp": "2016-09-11T17:27:54",
       "op": [
         "effective_comment_vote",
@@ -223,7 +223,7 @@
       "block": 4882682,
       "trx_in_block": 0,
       "op_in_trx": 0,
-      "virtual_op": 0,
+      "virtual_op": false,
       "timestamp": "2016-09-11T17:27:54",
       "op": [
         "vote",

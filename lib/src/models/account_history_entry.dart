@@ -37,7 +37,7 @@ class AccountHistoryEntry {
       block: data['block'] as int,
       trxInBlock: data['trx_in_block'] as int,
       opInTrx: data['op_in_trx'] as int,
-      virtualOp: data['virtual_op'] as int,
+      virtualOp: data['virtual_op'] as bool,
       timestamp: forceUtcDate(data['timestamp'] as String),
       op: AccountHistoryEntry._arrayToOp(data['op'] as List),
     );
@@ -70,7 +70,7 @@ class AccountHistoryEntry {
   final int block;
   final int trxInBlock;
   final int opInTrx;
-  final int virtualOp;
+  final bool virtualOp;
 
   @JsonKey(fromJson: forceUtcDate, toJson: stripUtcZ)
   final DateTime timestamp;
